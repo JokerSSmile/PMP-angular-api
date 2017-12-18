@@ -1,0 +1,50 @@
+<div class="container film-body" *ngIf="film">
+    <div class="row">
+        <img src="assets/images/wide-posters/{{ film.wide_img_url }}" class="wide-poster" />
+    </div>
+    <div class="row">
+    <div class="col-md-10">
+        <span class="film-title">{{ film.title }}</span>
+        <span class="film-period">В кино с {{ film.release_date | date:'mediumDate':'':'ru' }}</span>
+        <span class="film-director">{{ film.director }}</span>
+        <span>{{ film.running_time | date:'h:mm':'UTC' }}</span>
+        <p class="film-description">{{ film.description }}</p>
+    </div>
+    <div class="col-md-2">
+        <span class="film-actors" *ngFor="let actor of actors">
+            {{ actor }}
+        </span>
+    </div>
+    </div>
+    <div class="row col-md-10">
+        <div class="col-md-2">
+            ratings
+        </div>
+        <div class="col-md-10">
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let user of film.users">
+                            <th scope="row">
+                                <img src="assets/images/users/{{ user.userImageUrl }}" />
+                            </th>
+                            <td>{{ user.firstName }} {{ user.surname }}</td>
+                            <td>{{ 4 }}</td>
+                            <td>
+                                <!-- {% if app.user != null and app.user.name != user.nickname %} -->
+                                    <button onclick="goToUserProfile(user.id)" type="button" class="btn btn-link">Пригласить!</button>
+                                <!-- {% endif %} -->
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <!-- {% if app.user != null %}
+                {% if isUserSubscribed == false %}
+                    <button onclick="subscribe({{ film.id }})" type="button" class="btn">Хочу тоже!</button>
+                {% endif %}
+                {% if isUserSubscribed == true %}
+                    <button onclick="unsubscribe({{ film.id }})" type="button" class="btn">Больше не хочу!</button>
+                {% endif %}
+            {% endif %} -->
+        </div>
+    </div>
+</div>
