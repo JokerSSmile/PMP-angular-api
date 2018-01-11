@@ -1,3 +1,54 @@
-<p>
-  profile works!
-</p>
+<div class="container col-md-6" *ngIf="user">
+  <div class="row align-items-center">
+    <div class="col-md-2">
+      <img src="assets/images/profile.png">
+    </div>
+    <div class="col-md-10">
+      <h1 class="display-4">{{ user.first_name }} {{ user.surname }}</h1>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="user?.id == currentUser?.id">
+    <ul class="nav nav-tabs col-sm-12" id="profileTabs1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="invitations-tab" data-toggle="tab" href="#invitations" role="tab" aria-controls="invitations" aria-selected="true">Приглашения</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="want-tab" data-toggle="tab" href="#want" role="tab" aria-controls="want" aria-selected="false">Хотят со мной</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">История</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Настройки</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="profileTabsContent1">
+      <div class="tab-pane fade show active" id="invitations" role="tabpanel" aria-labelledby="invitations-tab">
+        <app-invites></app-invites>
+      </div>
+      <div class="tab-pane fade" id="want" role="tabpanel" aria-labelledby="want-tab">
+        <app-want></app-want>
+      </div>
+      <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+        <app-history></app-history>
+      </div>
+      <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+        <app-settings></app-settings>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="user?.id != currentUser?.id">
+    <ul class="nav nav-tabs col-sm-12" id="profileTabs2" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="true">Отзывы</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="profileTabsContent2">
+      <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+        <app-review></app-review>
+      </div>
+    </div>
+  </div>
+</div>

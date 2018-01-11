@@ -1,0 +1,23 @@
+<div>
+  <table class="table table-hover">
+    <tbody>
+      <tr *ngFor="let invite of invites">
+        <th scope="row">
+          <img src="assets/images/{{ invite.user }}" />
+        </th>
+        <td>
+            <button (click)="goToUserProfile(invite.user.id)" type="button" class="btn btn-link">{{ invite.user.first_name }} {{ invite.user.surname }}</button>
+        </td>
+        <td>
+          {{ invite.film.title }}
+        </td>
+        <td>
+          {{ invite.status }}
+        </td>
+        <td>
+          <button></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

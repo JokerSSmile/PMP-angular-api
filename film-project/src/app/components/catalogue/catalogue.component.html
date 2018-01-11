@@ -1,13 +1,13 @@
 <div class="container col-md-6">
   <div class="row">
 
-    <section class="col-md-12 post-card" *ngFor="let film of films">
+    <section class="col-md-12 post-card" *ngFor="let film of films" (click)="onFilmSelect(film)">
       <div class="post row">
         <div class="col-md-4 post-poster">
           <img src="assets/images/posters/{{ film.img_url }}" class="post-image" />
         </div>
         <div class="col-md-8 caption">
-          <button type="button" class="btn btn-link post-title" (click)="onFilmSelect(film)">{{ film.title }}</button>
+            <span class="post-title">{{ film.title }}</span>
           <span class="post-tag">{{ film.genres }}</span>
           <span class="post-date">{{ film.release_date | date:'mediumDate':'':'ru' }}</span>
           <span class="post-date">{{ film.running_time | date:'h:mm':'UTC' }}</span>

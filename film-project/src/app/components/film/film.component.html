@@ -1,4 +1,10 @@
 <div class="container film-body" *ngIf="film">
+    <div *ngIf="errorMessage" class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <img src="assets/images/wide-posters/{{ film.wide_img_url }}" class="wide-poster" />
     </div>
@@ -23,28 +29,24 @@
         <div class="col-md-10">
             <table class="table table-hover">
                 <tbody>
-                    <tr *ngFor="let user of film.users">
+                    <tr *ngFor="let filmUser of film.users">
                             <th scope="row">
-                                <img src="assets/images/users/{{ user.userImageUrl }}" />
+                                <img src="assets/images/{{ filmUser.userImageUrl }}" />
                             </th>
-                            <td>{{ user.firstName }} {{ user.surname }}</td>
-                            <td>{{ 4 }}</td>
                             <td>
-                                <!-- {% if app.user != null and app.user.name != user.nickname %} -->
-                                    <button onclick="goToUserProfile(user.id)" type="button" class="btn btn-link">Пригласить!</button>
-                                <!-- {% endif %} -->
+                                <button (click)="goToUserProfile(filmUser.id)" type="button" class="btn btn-link">{{ filmUser.first_name }} {{ filmUser.surname }}</button>
+                            </td>
+                            <td>
+                                <button *ngIf="filmUser.id != user.id" (click)="invite(filmUser.id)" type="button" class="btn btn-link">Пригласить!</button>
+                                <button *ngIf="filmUser.id == user.id" (click)="unsubscribe()" type="button" class="btn btn-link">Больше не хочу!</button>
                             </td>
                         </tr>
                 </tbody>
             </table>
-            <!-- {% if app.user != null %}
-                {% if isUserSubscribed == false %}
-                    <button onclick="subscribe({{ film.id }})" type="button" class="btn">Хочу тоже!</button>
-                {% endif %}
-                {% if isUserSubscribed == true %}
-                    <button onclick="unsubscribe({{ film.id }})" type="button" class="btn">Больше не хочу!</button>
-                {% endif %}
-            {% endif %} -->
+            <div *ngIf="user">
+                <button *ngIf="!isUserSubscribed" (click)="subscribe()" type="button" class="btn">Хочу тоже!</button>
+                <button *ngIf="isUserSubscribed" (click)="unsubscribe()" type="button" class="btn">Больше не хочу!</button>
+            </div>
         </div>
     </div>
 </div>

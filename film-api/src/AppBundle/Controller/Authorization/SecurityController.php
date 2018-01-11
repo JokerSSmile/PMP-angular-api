@@ -22,21 +22,15 @@ class SecurityController extends FOSRestController
         );
         $view = $this->view($data, 200);
         return $this->handleView($view);
-
-        // return $this->render(
-        //     'auth/login.html.twig',
-        //     array(
-        //         'last_username' => $helper->getLastUsername(),
-        //         'error'         => $helper->getLastAuthenticationError(),
-        //     )
-        // );
     }
+
     /**
      * @Rest\Get("/api/login_check", name="security_login_check")
      */
     public function loginCheckAction()
     {
     }
+
     /**
      * @Rest\Get("/api/logout", name="logout")
      */

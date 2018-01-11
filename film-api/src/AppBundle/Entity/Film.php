@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Entity;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @ORM\Entity
@@ -73,7 +75,7 @@ class Film
     protected $actors;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="films")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="films")
      */
     protected $users;
 

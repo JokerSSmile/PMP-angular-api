@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * User
  *
  * @ORM\Table("users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -68,6 +68,11 @@ class User extends BaseUser
     private $invitedMe;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Film", inversedBy="users")
+     */
+    protected $films;
+
+    /**
      * Get id
      *
      * @return integer
@@ -75,5 +80,15 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    public function addFilm($film)
+    {
+        $this->films[] = $film;
+    }
+
+    public function removeFilm($film)
+    {
+        $this->films->removeElement($film);
     }
 }

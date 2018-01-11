@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'catalogue', component: CatalogueComponent },
   { path: 'film/:id', component: FilmComponent  },
   { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent },
 ];
 
 @NgModule({

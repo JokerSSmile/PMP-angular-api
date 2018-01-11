@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller\User;
 
+use AppBundle\Entity\User;
+
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,28 +32,54 @@ class UserController extends FOSRestController
             }
         }
 
-        $view = $this->view($session, 200)
-        ->setHeaders(array(
-            'Access-Control-Allow-Origin' => '*'
-        ));
+        $view = $this->view($session, 200);
 
-    return $this->handleView($view);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/api/register")
+     */
+    public function registerAction(Request $request)
+    {
+        //$registerRequest = $request->getContent();
+        $form = $this->createForm(
+            new User()
+        );
+        $form->handleRequest($request);
+
+        $test="kee";
+        if ($form->isValid()) {
+            $test = $form->getData();
+            return $test;
+        }
+
+        $view = $this->view($test, 200);
+        return $this->handleView($view);
     }
 
     /**
      * @Rest\Get("/api/get-user")
      */
-    public function getUserAction()
+    public function getCurrentUserAction()
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if ($user == "anon.") {
             $user = null;
         }
 
-        $view = $this->view($user, 200)
-            ->setHeaders(array(
-                'Access-Control-Allow-Origin' => '*'
-            ));
+        $view = $this->view($user, 200);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/api/get-user-profile/{id}")
+     */
+    public function getUserAction($id)
+    {
+        $data = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $view = $this->view($data, 200);
 
         return $this->handleView($view);
     }

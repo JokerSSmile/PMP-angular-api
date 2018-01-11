@@ -8,9 +8,10 @@ import { UserService } from '../../services/user-service/user.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
 
+export class HeaderComponent implements OnInit {
   user: User;
+  userProfileLink: string;
 
   constructor(
     private userService: UserService
@@ -21,7 +22,12 @@ export class HeaderComponent implements OnInit {
   }
 
   getUser(): void {
-    this.userService.getUser().subscribe(user => this.user = user);
+    this.userService.getUser().subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.userProfileLink = '/profile/' + user.id;
+      }
+    });
   }
 
 }
