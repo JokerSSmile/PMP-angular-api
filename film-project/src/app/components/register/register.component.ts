@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
-import { User } from '../../models/user';
-import { UserRegusterRequest } from '../../models/user';
+import { User, Gender, Password, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
+import { UserRegisterResponse } from '../../models/common';
 
 import { UserService } from '../../services/user-service/user.service';
 
@@ -12,28 +14,49 @@ import { UserService } from '../../services/user-service/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  userRequest: UserRegusterRequest;
-  repeatPassword: string;
+  registerRequest: UserRegusterRequest;
+  registerPreRequest: UserRegisterPreRequest;
+  step: number;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.initUser();
+    this.userService.getUser(true).subscribe((user: User) => {
+      if (user) {
+        this.router.navigate(['/catalogue']);
+      } else {
+        this.initUser();
+        this.step = 0;
+      }
+    })
   }
 
   initUser() {
-    this.userRequest = new UserRegusterRequest();
+    this.registerRequest = new UserRegusterRequest();
+    this.registerPreRequest = new UserRegisterPreRequest();
+    this.registerPreRequest.plainPassword = new Password();
+  }
+
+  preRegister() {
+    this.userService.preRegister(this.registerPreRequest).subscribe((response: UserRegisterResponse) => {
+      if (!response.isError) {
+        this.toastr.success('Пользователь создан!', 'Отлично!');
+        this.registerRequest.id = response.userId;
+        this.step++;
+      } else {
+        this.toastr.error(response.message, 'Упс!');
+      }
+    });
   }
 
   register() {
-    if (this.userRequest.password && (this.userRequest.password === this.repeatPassword)) {
-      this.userService.register(this.userRequest).subscribe((response) => {
-        console.log(response);
-      });
-    }
+    this.userService.register(this.registerRequest).subscribe((response) => {
+      this.toastr.success('Регистрация прошла успешно!', 'Отлично!');
+      this.router.navigate(['/login']);
+    });
   }
-
-  //MatSnackBarConfig
 }

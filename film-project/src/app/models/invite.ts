@@ -11,3 +11,9 @@ export class Invite {
     filmId: number;
     status: InviteStatus;
 }
+
+export class InviteRequest {
+    filmId: number;
+    from: number;
+    to: number;
+}

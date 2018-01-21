@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Film } from '../../models/film';
+import { InviteRequest } from '../../models/invite';
 import { BaseResponse } from '../../models/common';
 
 @Injectable()
@@ -12,6 +13,7 @@ export class FilmService {
   private getFilmUrl = 'http://films/api/get-film';
   private subscribeUrl = 'http://films/api/subscribe';
   private unsubscribeUrl = 'http://films/api/unsubscribe';
+  private inviteUrl = 'http://films/app_dev.php/api/invite';
 
   constructor(
     private http: HttpClient
@@ -31,5 +33,13 @@ export class FilmService {
 
   unsubscribe(filmId: number, userId: number) {
     return this.http.get<BaseResponse>(`${this.unsubscribeUrl}?filmId=${filmId}&userId=${userId}`).toPromise();
+  }
+
+  invite(request: InviteRequest) {
+    return this.http
+      .post(this.inviteUrl, request)
+      .map((response: BaseResponse) => {
+        return response;
+      });
   }
 }

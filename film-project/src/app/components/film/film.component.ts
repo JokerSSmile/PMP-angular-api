@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 import { Film } from '../../models/film';
 import { User } from '../../models/user';
+import { InviteRequest } from '../../models/invite';
 import { BaseResponse } from '../../models/common';
 import { FilmService } from '../../services/film-service/film.service';
 import { UserService } from '../../services/user-service/user.service';
@@ -79,6 +80,14 @@ export class FilmComponent implements OnInit {
   }
 
   invite(profileId: number): void {
-
+    let request: InviteRequest =  {
+      filmId: this.filmId,
+      from: this.user.id,
+      to: profileId
+    }
+    this.filmService.invite(request)
+      .subscribe((response: BaseResponse) => {
+        console.log("response");
+      });
   }
 }

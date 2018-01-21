@@ -3,9 +3,9 @@ import { Invite } from '../models/invite';
 import { Review } from '../models/review';
 
 export enum Gender {
-    Male = 0,
-    Female = 1,
-    Uncknown = 2
+    Male = '0',
+    Female = '1',
+    Uncknown = '2'
 }
 
 export class User {
@@ -24,12 +24,22 @@ export class User {
     reviews: Review[];
 }
 
-export class UserRegusterRequest {
+export class Password {
+    first: string;
+    second: string;
+}
+
+export class UserRegisterPreRequest {
     username: string;
     email: string;
+    plainPassword: Password;
+}
+
+export class UserRegusterRequest {
+    id: number;
     name: string;
     surname: string;
     age: number;
     gender: Gender;
-    password: string;
+    phone: string;
 }

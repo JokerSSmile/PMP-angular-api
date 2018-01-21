@@ -5,13 +5,14 @@ import { AuthService } from '../auth-service/auth.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map'
 
-import { User } from '../../models/user';
-import { UserRegusterRequest } from '../../models/user';
+import { User, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
+import { UserRegisterResponse } from '../../models/common';
 
 @Injectable()
 export class UserService {
 
   private getUserUrl = 'http://films/api/get-user';
+  private preRegisterUrl = 'http://films/api/pre-register';
   private registerUrl = 'http://films/api/register';
 
   private user: User;
@@ -27,23 +28,26 @@ export class UserService {
     }
 
     let userRQ: Observable<User> = this.http.get<User>(this.getUserUrl);
-    userRQ.subscribe((user) => {
+    userRQ.subscribe((user: User) => {
       this.user = user
     });
 
     return userRQ;
   }
 
-  register( registerRequest: UserRegusterRequest ): Observable<string> {
+  register(registerRequest: UserRegusterRequest): Observable<UserRegisterResponse> {
     return this.http
-      .post(this.registerUrl, registerRequest, { headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-      .map((response) => {
-        console.log(response)
-        return "ok"
-      })
-      .catch((error) => {
-        console.log(error);
-        return "err"
+      .post(this.registerUrl, registerRequest)
+      .map((response: UserRegisterResponse) => {
+        return response;
+      });
+  }
+
+  preRegister(preRegisterPreRequest: UserRegisterPreRequest): Observable<UserRegisterResponse> {
+    return this.http
+      .post(this.preRegisterUrl, preRegisterPreRequest)
+      .map((response: UserRegisterResponse) => {
+        return response;
       });
   }
 

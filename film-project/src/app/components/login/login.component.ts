@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { User } from '../../models/user';
+
 import { UserService } from '../../services/user-service/user.service';
 
 @Component({
@@ -20,7 +22,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.isLoginError = false;
+    this.userService.getUser(true).subscribe((user: User) => {
+      if (user) {
+        this.router.navigate(['/catalogue']);
+      } else {
+        this.isLoginError = false;
+      }
+    })
   }
 
   onLogin(): void {

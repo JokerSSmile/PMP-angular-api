@@ -3,9 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule }    from '@angular/forms';
 import { AppRoutingModule } from './/app-routing.module';
 import { HttpClientModule }    from '@angular/common/http';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule  } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeRu from '@angular/common/locales/ru';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { CatalogueComponent } from './components/catalogue/catalogue.component';
@@ -36,6 +39,9 @@ registerLocaleData(localeRu, 'ru');
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     AppComponent,

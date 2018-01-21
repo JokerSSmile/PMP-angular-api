@@ -20,7 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private isRefreshingToken: boolean = false;
   private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  private exclude: string[] = ['http://films/oauth/v2/token', 'http://films/api/register', 'http://films/api/get-user'];
+  private exclude: string[] = ['http://films/oauth/v2/token', 'http://films/api/register', 'http://films/api/login'];
 
   constructor(
     private injector: Injector,
@@ -47,6 +47,8 @@ export class TokenInterceptor implements HttpInterceptor {
               return this.handleBadRequestResponse(error);
             case 401:
               return this.handleUnauthorizedResponse(request, next);
+            case 404:
+              return this.router.navigate(['/404']);
           }
         } else {
           return Observable.throw(error);
