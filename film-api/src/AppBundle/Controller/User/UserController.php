@@ -3,13 +3,22 @@
 namespace AppBundle\Controller\User;
 
 use AppBundle\Entity\User;
+use AppBundle\Service\UserService;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends FOSRestController
 {
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * @Rest\Get("/api/login")
      */
@@ -33,7 +42,21 @@ class UserController extends FOSRestController
         }
 
         $view = $this->view($session, 200);
+        return $this->handleView($view);
+    }
 
+    /**
+     * @Rest\Post("/api/pre-register")
+     */
+    public function preRegisterAction(Request $request)
+    {
+        $formFactory = $this->get('fos_user.registration.form.factory');
+        $userManager = $this->get('fos_user.user_manager');
+        $dispatcher = $this->get('event_dispatcher');
+
+        $userData = $this->userService->createUser($request, $formFactory, $userManager, $dispatcher);
+
+        $view = $this->view($userData, 200);
         return $this->handleView($view);
     }
 
@@ -42,19 +65,24 @@ class UserController extends FOSRestController
      */
     public function registerAction(Request $request)
     {
-        //$registerRequest = $request->getContent();
-        $form = $this->createForm(
-            new User()
-        );
-        $form->handleRequest($request);
+        $userManager = $this->get('fos_user.user_manager');
 
-        $test="kee";
-        if ($form->isValid()) {
-            $test = $form->getData();
-            return $test;
+        $userId = $request->request->get('id');
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+
+        if ($user == null) {
+            $view = $this->view(array(
+                'isError' => true,
+                'message' => 'Пользователь с таким идентификатором не найден!'
+            ), 200);
+        } else {
+            $this->userService->fillUser($user, $request->request, $userManager);
+            $view = $this->view(array(
+                'isError' => false,
+                'message' => ''
+            ), 200);
         }
 
-        $view = $this->view($test, 200);
         return $this->handleView($view);
     }
 
@@ -78,29 +106,9 @@ class UserController extends FOSRestController
      */
     public function getUserAction($id)
     {
-        $data = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $view = $this->view($data, 200);
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $view = $this->view($user, 200);
 
         return $this->handleView($view);
-    }
-
-    /**
-     * @Rest\Post("/api/add-user")
-     */
-    public function postAction(Request $request)
-    {
-        $data = new User;
-        $name = $request->get('name');
-        $role = $request->get('role');
-        if(empty($name) || empty($role)) {
-            return new View("NULL VALUES ARE NOT ALLOWED", Response::HTTP_NOT_ACCEPTABLE);
-        }
-        $data->setName($name);
-        $data->setRole($role);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($data);
-        $em->flush();
-
-        return new View("User Added Successfully", Response::HTTP_OK);
     }
 }
