@@ -1,20 +1,22 @@
 <div class="container col-md-6">
   <div class="row">
-
-    <section class="col-md-12 post-card" *ngFor="let film of films" (click)="onFilmSelect(film)">
-      <div class="post row">
-        <div class="col-md-4 post-poster">
-          <img src="assets/images/posters/{{ film.img_url }}" class="post-image" />
-        </div>
-        <div class="col-md-8 caption">
-            <span class="post-title">{{ film.title }}</span>
-          <span class="post-tag">{{ film.genres }}</span>
-          <span class="post-date">{{ film.release_date | date:'mediumDate':'':'ru' }}</span>
-          <span class="post-date">{{ film.running_time | date:'h:mm':'UTC' }}</span>
-          <p class="post-description">{{ film.description }}</p>
+    <div class="col-sm-6" *ngFor="let film of films" (click)="onFilmSelect(film)">
+      <div class="card post-card card-shadow">
+        <img class="card-img-top post-image" src="assets/images/posters/{{ film.img_url }}">
+        <div class="card-body">
+          <div class="row post-body">
+            <div class="col-sm-8 float-left">
+              <h5 class="card-title">{{ film.title }}</h5>
+              <p class="card-text">{{ film.director }}</p>
+            </div>
+            <div class="col-sm-4 float-right post-user-counter">
+              <button type="button" class="btn btn-outline-primary float-right disabled" tooltip="Уже записались на фильм" placement="right">
+                {{ film.users.length }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-
+    </div>
   </div>
 </div>

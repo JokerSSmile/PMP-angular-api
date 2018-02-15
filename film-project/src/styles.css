@@ -6,17 +6,41 @@ html {
 
 body {
     background: #F8F8F8;
+    font-family: "Roboto", sans-serif;
 }
 
 a {
-    color: #FF7C26;
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
     text-decoration: none;
 }
 
-a:hover {
-    color: #FF7C26;
+/* a:hover {
     background-color: transparent;
     text-decoration: none;
+} */
+
+td {
+    vertical-align: middle !important;
+}
+
+td i {
+    vertical-align: middle;
+}
+
+.user-image {
+    width: 50px;
+    height: 50px;
+}
+
+.button-fixed-width {
+    width: 150px;
+}
+
+.card-shadow {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.title {
+    font-weight: bold;
 }

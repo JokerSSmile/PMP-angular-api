@@ -9,7 +9,7 @@ import { User } from '../../models/user';
 @Injectable()
 export class ProfileService {
 
-  private getProfileUrl = 'http://films/api/get-user-profile';
+  private getProfileUrl = 'http://films/app_dev.php/api/get-user-profile';
 
   private user: User;
 

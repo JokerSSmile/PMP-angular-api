@@ -20,7 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private isRefreshingToken: boolean = false;
   private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  private exclude: string[] = ['http://films/oauth/v2/token', 'http://films/api/register', 'http://films/api/login'];
+  private exclude: string[] = ['http://films/oauth/v2/token', 'http://films/api/register', 'http://films/api/login', 'https://rating.kinopoisk.ru'];
 
   constructor(
     private injector: Injector,

@@ -1,17 +1,15 @@
 .header {
     position: relative;
-    text-align: center;
-    padding: 50px 0 50px;
-    justify-content: center;
-    align-items: center;
+    padding: 30px 0 40px;
     background: #ffffff;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-#header-title {
+.header-title {
+    margin-left: -30px;
     text-transform: uppercase;
-    font-size: 40px;
-    font-weight: 300;
+    font-size: 50px;
+    font-family: "Economica", sans-serif;
 }
 
 .user-profile {
@@ -19,9 +17,9 @@
     height: 50px;
 }
 
-.header-left {
+.header-user {
     position: absolute;
-    top: 50px;
-    right: 50px;
+    top: 45px;
+    right: 0px;
     margin: 0 50px 0 0;
 }

@@ -12,26 +12,29 @@ export class AuthService {
   private clientRandomId = '2_3jas9un8ty04c0kso4oko4c0gwwkgck4c0sc4oso88o08oc8g8';
   private clientSecret = '4d2jwwqpkps0swwcw4oskwccwks08o0408w4sc4oosgc0ssks0';
 
+  private AUTH_TOKEN_NAME: string = 'auth_token';
+  private REFRESH_TOKEN_NAME: string = 'refresh_token';
+
   constructor(
     private http: HttpClient
   ) { }
 
   public getToken(): string {
-    return localStorage.getItem('auth_token');
+    return localStorage.getItem(this.AUTH_TOKEN_NAME);
   }
 
   private getRefreshToken(): string {
-    return localStorage.getItem('refresh_token');
+    return localStorage.getItem(this.REFRESH_TOKEN_NAME);
   }
 
   public deleteTokens() {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem(this.AUTH_TOKEN_NAME);
+    localStorage.removeItem(this.REFRESH_TOKEN_NAME);
   }
 
   public setTokens(accessToken: string, refreshToken: string): void {
-    localStorage.setItem('auth_token', accessToken);
-    localStorage.setItem('refresh_token', refreshToken);
+    localStorage.setItem(this.AUTH_TOKEN_NAME, accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN_NAME, refreshToken);
   }
 
   public refreshToken(): Observable<any> {

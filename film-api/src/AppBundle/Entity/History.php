@@ -1,11 +1,14 @@
 <?php
 namespace AppBundle\Entity;
 
+
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table("history")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\HistoryRepository")
  */
 class History
@@ -18,14 +21,29 @@ class History
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Film", inversedBy="histories")
      */
-    protected $filmName;
+    protected $film;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="history")
+     * @ORM\Column(type="datetime")
+     */
+    protected $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="selfHistory")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="partnerHistory")
      */
     private $partner;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="history")
+     */
+    private $reviews;
 
     public function setFilmName($filmName)
     {
@@ -37,37 +55,8 @@ class History
         return $this->filmName;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set partner
-     *
-     * @param \AppBundle\Entity\User $partner
-     *
-     * @return History
-     */
-    public function setPartner(\AppBundle\Entity\User $partner = null)
-    {
-        $this->partner = $partner;
-
-        return $this;
-    }
-
-    /**
-     * Get partner
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getPartner()
-    {
-        return $this->partner;
     }
 }

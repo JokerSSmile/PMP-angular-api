@@ -1,6 +1,7 @@
 import { Film } from '../models/film';
 import { Invite } from '../models/invite';
 import { Review } from '../models/review';
+import { HistoryItem } from './history';
 
 export enum Gender {
     Male = '0',
@@ -22,6 +23,8 @@ export class User {
     invites: Invite[];
     invited_me: Invite[];
     reviews: Review[];
+    self_history: HistoryItem[];
+    partner_history: HistoryItem[];
 }
 
 export class Password {

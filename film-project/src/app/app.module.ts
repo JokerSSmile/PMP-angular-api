@@ -8,7 +8,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeRu from '@angular/common/locales/ru';
 
+import { TooltipModule } from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { AppComponent } from './app.component';
 import { CatalogueComponent } from './components/catalogue/catalogue.component';
@@ -22,6 +24,7 @@ import { FilmService } from './services/film-service/film.service';
 import { ProfileService } from './services/profile-service/profile.service';
 import { UserService } from './services/user-service/user.service';
 import { AuthService } from './services/auth-service/auth.service';
+import { InviteService } from './services/invite-service/invite.service';
 
 import { TokenInterceptor } from './interceptors/tokenInterceptor'
 import { HttpClient } from 'selenium-webdriver/http';
@@ -30,18 +33,23 @@ import { WantComponent } from './components/profile/want/want.component';
 import { HistoryComponent } from './components/profile/history/history.component';
 import { SettingsComponent } from './components/profile/settings/settings.component';
 import { ReviewComponent } from './components/profile/review/review.component';
+import { FooterComponent } from './components/footer/footer.component';
+
+import { MaterialModule } from './material.module';
 
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   imports: [
+    MaterialModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -55,13 +63,16 @@ registerLocaleData(localeRu, 'ru');
     WantComponent,
     HistoryComponent,
     SettingsComponent,
-    ReviewComponent
+    ReviewComponent,
+    FooterComponent,
+    TimeAgoPipe
   ],
   providers: [
     FilmService,
     ProfileService,
     UserService,
     AuthService,
+    InviteService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

@@ -60,6 +60,11 @@ class Film
     protected $wideImgUrl;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $kinopoiskId;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     protected $genres;
@@ -83,6 +88,11 @@ class Film
      * @ORM\OneToMany(targetEntity="Invite", mappedBy="film")
      */
     private $invites;
+
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="film")
+     */
+    private $histories;
 
     public function getId()
     {
@@ -177,6 +187,16 @@ class Film
     public function setWideImgUrl($wideImgUrl)
     {
         $this->wideImgUrl = $wideImgUrl;
+    }
+
+    public function getKinopoiskId()
+    {
+        return $this->kinopoiskId;
+    }
+
+    public function setKinopoiskId($kinopoiskId)
+    {
+        $this->kinopoiskId = $kinopoiskId;
     }
 
     public function getGenres()

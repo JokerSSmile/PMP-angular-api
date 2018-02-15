@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
         this.initUser();
         this.step = 0;
       }
-    })
+    });
   }
 
   initUser() {
@@ -44,18 +44,18 @@ export class RegisterComponent implements OnInit {
   preRegister() {
     this.userService.preRegister(this.registerPreRequest).subscribe((response: UserRegisterResponse) => {
       if (!response.isError) {
-        this.toastr.success('Пользователь создан!', 'Отлично!');
+        this.toastr.success('Пользователь создан!');
         this.registerRequest.id = response.userId;
         this.step++;
       } else {
-        this.toastr.error(response.message, 'Упс!');
+        this.toastr.error(response.message);
       }
     });
   }
 
   register() {
     this.userService.register(this.registerRequest).subscribe((response) => {
-      this.toastr.success('Регистрация прошла успешно!', 'Отлично!');
+      this.toastr.success('Регистрация прошла успешно!');
       this.router.navigate(['/login']);
     });
   }

@@ -32,6 +32,16 @@ class Review
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sentReviews")
+     */
+    private $sender;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="History", inversedBy="reviews")
+     */
+    private $history;
+
     public function setRating($rating)
     {
         $this->rating = $rating;

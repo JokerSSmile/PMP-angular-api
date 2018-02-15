@@ -1,0 +1,10 @@
+.footer {
+    padding: 30px;
+    margin-top: 30px;
+    margin-left: -30px;
+    background: #ffffff;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.19), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    font-family: "Economica", sans-serif;
+    text-transform: uppercase;
+    font-size: 30px;
+}

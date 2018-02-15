@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table("invite")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\InviteRepository")
  */
 class Invite
@@ -21,6 +22,11 @@ class Invite
      * @ORM\Column(type="string", length=25)
      */
     protected $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $date;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="invites")

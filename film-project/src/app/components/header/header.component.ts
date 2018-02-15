@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUser(): void {
-    this.userService.getUser().subscribe((user) => {
+    this.userService.getUser().subscribe(user => {
       if (user) {
         this.user = user;
         this.userProfileLink = '/profile/' + user.id;

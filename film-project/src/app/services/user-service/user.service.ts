@@ -11,7 +11,7 @@ import { UserRegisterResponse } from '../../models/common';
 @Injectable()
 export class UserService {
 
-  private getUserUrl = 'http://films/api/get-user';
+  private getUserUrl = 'http://films/app_dev.php/api/get-user';
   private preRegisterUrl = 'http://films/api/pre-register';
   private registerUrl = 'http://films/api/register';
 
@@ -35,7 +35,7 @@ export class UserService {
     return userRQ;
   }
 
-  register(registerRequest: UserRegusterRequest): Observable<UserRegisterResponse> {
+  register(registerRequest: UserRegusterRequest) {
     return this.http
       .post(this.registerUrl, registerRequest)
       .map((response: UserRegisterResponse) => {
@@ -43,7 +43,7 @@ export class UserService {
       });
   }
 
-  preRegister(preRegisterPreRequest: UserRegisterPreRequest): Observable<UserRegisterResponse> {
+  preRegister(preRegisterPreRequest: UserRegisterPreRequest) {
     return this.http
       .post(this.preRegisterUrl, preRegisterPreRequest)
       .map((response: UserRegisterResponse) => {
@@ -51,7 +51,7 @@ export class UserService {
       });
   }
 
-  login(username: string, password: string): Promise<boolean> {
+  login(username: string, password: string) {
     return this.authService.login(username, password);
   }
 

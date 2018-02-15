@@ -23,10 +23,9 @@ export class CatalogueComponent implements OnInit {
   }
 
   getFilms(): void {
-    this.filmService.getFilms()
-      .then((result) => {
-        this.films = result;
-      });
+    this.filmService.getFilms().subscribe(result => {
+      this.films = result;
+    });
   }
 
   onFilmSelect(film: Film): void {

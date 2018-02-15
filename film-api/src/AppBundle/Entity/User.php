@@ -58,6 +58,11 @@ class User extends BaseUser
     private $reviews;
 
     /**
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="sender")
+     */
+    private $sentReviews;
+
+    /**
      * @ORM\OneToMany(targetEntity="Invite", mappedBy="user")
      */
     private $invites;
@@ -71,6 +76,16 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Film", inversedBy="users")
      */
     protected $films;
+
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="user")
+     */
+    protected $selfHistory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="partner")
+     */
+    protected $partnerHistory;
 
     public function getId()
     {
