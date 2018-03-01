@@ -11,6 +11,7 @@ import localeRu from '@angular/common/locales/ru';
 import { TooltipModule } from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { StarRatingModule } from 'angular-star-rating';
 
 import { AppComponent } from './app.component';
 import { CatalogueComponent } from './components/catalogue/catalogue.component';
@@ -25,6 +26,7 @@ import { ProfileService } from './services/profile-service/profile.service';
 import { UserService } from './services/user-service/user.service';
 import { AuthService } from './services/auth-service/auth.service';
 import { InviteService } from './services/invite-service/invite.service';
+import { ReviewService } from './services/review-service/review.service';
 
 import { TokenInterceptor } from './interceptors/tokenInterceptor'
 import { HttpClient } from 'selenium-webdriver/http';
@@ -49,7 +51,8 @@ registerLocaleData(localeRu, 'ru');
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    StarRatingModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -73,6 +76,7 @@ registerLocaleData(localeRu, 'ru');
     UserService,
     AuthService,
     InviteService,
+    ReviewService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

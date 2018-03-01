@@ -15,7 +15,7 @@
           <span [ngClass]="getBageClasses(invite.status)"> {{ getStatusText(invite.status) }} </span>
         </td>
         <td>
-          <button (click)="rejectInvite(invite.id)" [disabled]="invite.status == 2" type="button" class="close" aria-label="Close" data-toggle="tooltip" data-placement="top" title="Отклонить">
+          <button (click)="rejectInvite(invite.id)" [disabled]="invite.status === '2'" type="button" class="close" aria-label="Close" data-toggle="tooltip" data-placement="top" title="Отклонить">
             <span aria-hidden="true">&times;</span>
           </button>
         </td>

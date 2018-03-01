@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { User } from '../../models/user';
 import { UserService } from '../../services/user-service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
   userProfileLink: string;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -22,12 +24,21 @@ export class HeaderComponent implements OnInit {
   }
 
   getUser(): void {
-    this.userService.getUser().subscribe(user => {
+    this.userService.getUser(true).subscribe(user => {
       if (user) {
         this.user = user;
         this.userProfileLink = '/profile/' + user.id;
+      } else {
+        this.user = null;
       }
     });
   }
 
+  goToUserProfile(): void {
+    this.router.navigate([this.userProfileLink]);
+  }
+
+  onLogoutClick(): void {
+    this.userService.logout();
+  }
 }

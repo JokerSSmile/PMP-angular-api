@@ -28,7 +28,11 @@ export class TokenInterceptor implements HttpInterceptor {
   ) {}
 
   addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-    return req.clone({ setHeaders: { Authorization: 'Bearer ' + token }})
+    let headers = {};
+    if (token) {
+      headers = { Authorization: 'Bearer ' + token }
+    }
+    return req.clone({ setHeaders: headers})
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {

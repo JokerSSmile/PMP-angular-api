@@ -1,11 +1,19 @@
 <div class="header">
     <div class="container">
-        <a [routerLink]="['/']" class="header-title container"> FilMeet </a>
+        <button [routerLink]="['/']" class="header-title btn btn-outline-primary"> FilMeet </button>
 
-        <div class="header-user">
-            <img src="assets/images/profile.png" class="rounded-circle user-profile" />
-            <a [routerLink]="[userProfileLink]" *ngIf="user"> Привет, {{ user.first_name }} </a>
-            <a [routerLink]="['/login']" *ngIf="!user"> Войти </a>
+        <div class="header-user" *ngIf="user !== undefined">
+            <div class="dropdown" *ngIf="user !== null">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="assets/images/profile.png" class="rounded-circle user-profile" />
+                    Привет, {{ user.first_name }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="goToUserProfile()">Профиль</a>
+                    <a class="dropdown-item" (click)="onLogoutClick()">Выйти</a>
+                </div>
+            </div>
+            <button [routerLink]="['/login']" *ngIf="user === null" class="btn btn-outline-primary">Войти</button>
         </div>
     </div>
 </div>

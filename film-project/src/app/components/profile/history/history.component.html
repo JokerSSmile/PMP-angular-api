@@ -8,7 +8,31 @@
         </button>
       </div>
       <div class="modal-body">
-        
+      <table class="table">
+          <tbody>
+            <tr>
+              <td colspan="2" class="border-0">
+                <h5 class="title">{{ selectedHistory?.partner.first_name }} {{ selectedHistory?.partner.surname }}</h5>
+              </td>
+            </tr>
+            <tr>
+              <td class="w-25">
+                <i class="material-icons">call</i>
+              </td>
+              <td>
+                {{selectedHistory?.partner.phone}}
+              </td>
+            </tr>
+            <tr>
+              <td class="w-25 title">
+                <i class="material-icons">local_post_office</i>
+              </td>
+              <td>
+                {{selectedHistory?.partner.email}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -17,9 +41,50 @@
   </div>
 </div>
 
+<div class="modal fade" id="reviewPopup" tabindex="-1" role="dialog" aria-labelledby="reviewPopupTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reviewPopupTitle">Оставить отзыв о пользователе</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <table class="table">
+            <tbody>
+              <tr>
+                <td class="w-25 title border-0">
+                  <i class="material-icons">star</i>
+                  Оценка
+                </td>
+                <td class="border-0">
+                  <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" (onRatingChange)="onRatingChange($event)"></star-rating-comp>
+                </td>
+              </tr>
+              <tr>
+                  <td class="w-25 title">
+                    <i class="material-icons">comment</i>
+                    Отзыв
+                  </td>
+                  <td>
+                    <textarea class="form-control" [(ngModel)]="reviewComment"></textarea>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button (click)="submitReview()" type="button" class="btn btn-primary" data-dismiss="modal">Отправить</button>
+          <button type="button" class="btn btn-secondary ml-1" data-dismiss="modal">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div>
   <div *ngIf="historyItems.length" class="list-group">
-    <div *ngFor="let history of historyItems">
+    <div *ngFor="let history of historyItems" [ngClass]="getHistoryClass(history)">
       <div class="d-flex justify-content-between">
         <p class="mb-1" *ngIf="history.user.id === user.id">Пользователь
           <button (click)="goToUserProfile(history.partner.id)" type="button" class="btn btn-link">{{ history.partner.first_name }} {{ history.partner.surname }}</button>
@@ -34,17 +99,17 @@
       <div *ngIf="canAddReview(history)">
         <hr>
         <div class="d-flex justify-content-end">
-          <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userInfoPopup">
+          <button (click)="onHistorySelect(history)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userInfoPopup">
             <i class="material-icons">call</i>
           </button>
-          <button (click)="addReview(history)" class="btn btn-sm btn-primary ml-1">Оставить отзыв</button>
+          <button (click)="addReview(history)" class="btn btn-sm btn-primary ml-1" data-toggle="modal" data-target="#reviewPopup">Оставить отзыв</button>
         </div>
       </div>
     </div>
   </div>
   <div *ngIf="!historyItems.length">
-      <div class="mt-2">
-        <p class="d-flex justify-content-center">Пока здесь пусто</p>
-      </div>
+    <div class="mt-2">
+      <p class="d-flex justify-content-center">Пока здесь пусто</p>
     </div>
+  </div>
 </div>

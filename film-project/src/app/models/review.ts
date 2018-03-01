@@ -9,3 +9,11 @@ export class Review {
     comment: string;
     history: HistoryItem;
 }
+
+export class AddReviewRequest {
+    senderId: number;
+    userId: number;
+    rating: number;
+    comment: string;
+    historyId: number;
+}

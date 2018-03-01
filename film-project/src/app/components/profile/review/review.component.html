@@ -1,3 +1,26 @@
-<p>
-  review works!
-</p>
+<div>
+  <div *ngIf="reviews.length" class="list-group">
+    <div *ngFor="let review of reviews" class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <p class="mb-1">Пользователь
+          <button (click)="goToUserProfile(review.sender.id)" type="button" class=" btn btn-link">{{ review.sender.first_name }} {{ review.sender.surname }}</button>
+          после совместного похода на фильм {{review.history.film.title}}
+        </p>
+        <small>
+          <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="review.rating" [readOnly]="true"></star-rating-comp>
+        </small>
+      </div>
+      <div *ngIf="review.comment">
+        <hr>
+        <p>
+          {{review.comment}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!reviews.length">
+    <div class="mt-2">
+      <p class="d-flex justify-content-center">Пока здесь пусто</p>
+    </div>
+  </div>
+</div>

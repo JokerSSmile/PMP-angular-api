@@ -30,7 +30,7 @@ export class InvitesComponent implements OnInit {
   }
 
   getUser(forceUpdate: boolean) {
-    return this.userService.getUser(forceUpdate).subscribe(user => {
+    this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
       this.invites = this.getUserInvites();
     });

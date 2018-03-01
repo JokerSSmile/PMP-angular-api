@@ -1,7 +1,7 @@
-<div class="container film-info card card-shadow">
+<div class="container film-info card card-shadow" *ngIf="film">
   <div class="row film-head">
-    <img src="assets/images/wide-posters/{{ film?.wide_img_url }}" class="film-poster" />
-    <span class="film-title">{{ film?.title }}</span>
+    <img src="assets/images/wide-posters/{{ film.wide_img_url }}" class="film-poster" />
+    <span class="film-title">{{ film.title }}</span>
   </div>
   <div class="row">
     <div class="kinopoisk" data-movie="89515"></div>
@@ -15,7 +15,7 @@
                 Дата премьеры
               </td>
               <td>
-                {{ film?.release_date | date:'longDate':'':'ru' }}
+                {{ film.release_date | date:'longDate':'':'ru' }}
               </td>
             </tr>
             <tr>
@@ -24,7 +24,7 @@
                 Режиссер
               </td>
               <td>
-                {{ film?.director }}
+                {{ film.director }}
               </td>
             </tr>
             <tr>
@@ -33,12 +33,12 @@
                 Время
               </td>
               <td>
-                {{ film?.running_time | date:'h:mm':'UTC' }}
+                {{ film.running_time | date:'h:mm':'UTC' }}
               </td>
             </tr>
           </tbody>
         </table>
-        <p class="film-description">{{ film?.description }}</p>
+        <p class="film-description">{{ film.description }}</p>
         <div class="col-md-4 float-left">
             <table class="table">
               <tbody>
@@ -70,7 +70,7 @@
         <div class="col-md-8 float-right">
           <table class="table table-hover">
             <tbody>
-              <tr *ngFor="let filmUser of film?.users">
+              <tr *ngFor="let filmUser of film.users">
                 <th scope="row col">
                   <img class="user-image" src="assets/images/{{ filmUser?.user_image_url }}" />
                 </th>

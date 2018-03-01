@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 
 import { Film, Ratings } from '../../models/film';
 import { BaseResponse } from '../../models/common';
+import { User } from '../../models/user';
 
 @Injectable()
 export class FilmService {
@@ -14,6 +15,7 @@ export class FilmService {
   private getFilmUrl = 'http://films/app_dev.php/api/get-film';
   private subscribeUrl = 'http://films/app_dev.php/api/subscribe';
   private unsubscribeUrl = 'http://films/app_dev.php/api/unsubscribe';
+  private getFilmUsersUrl = 'http://films/app_dev.php/api/get-film-users';
   private ratingsUrl = 'https://rating.kinopoisk.ru';
 
   constructor(
@@ -24,15 +26,20 @@ export class FilmService {
     return this.http.get<Film[]>(this.getFilmsUrl);
   }
 
-  getFilm(filmId: number) {
+  getFilm(filmId: number): Observable<Film> {
     return this.http.get<Film>(`${this.getFilmUrl}/${filmId}`);
   }
 
-  subscribe(filmId: number, userId: number) {
+  // TODO: check
+  getFilmUsers(filmId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.getFilmUsersUrl}/filmId`);
+  }
+
+  subscribe(filmId: number, userId: number): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${this.subscribeUrl}?filmId=${filmId}&userId=${userId}`);
   }
 
-  unsubscribe(filmId: number, userId: number) {
+  unsubscribe(filmId: number, userId: number): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${this.unsubscribeUrl}?filmId=${filmId}&userId=${userId}`);
   }
 

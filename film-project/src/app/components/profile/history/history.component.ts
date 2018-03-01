@@ -4,7 +4,9 @@ import { UserService } from '../../../services/user-service/user.service';
 import { User } from '../../../models/user';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { Review } from '../../../models/review';
+import { Review, AddReviewRequest } from '../../../models/review';
+import { ReviewService } from '../../../services/review-service/review.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-history',
@@ -15,10 +17,15 @@ export class HistoryComponent implements OnInit {
 
   historyItems: HistoryItem[];
   user: User;
+  selectedHistory: HistoryItem;
+  reviewRating: number;
+  reviewComment: string;
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private reviewService: ReviewService,
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -26,7 +33,8 @@ export class HistoryComponent implements OnInit {
   }
 
   getUser(forceUpdate: boolean) {
-    return this.userService.getUser(forceUpdate).subscribe(user => {
+    this.reviewRating = 4;
+    this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
       this.historyItems = this.getUserHistory();
     });
@@ -40,7 +48,7 @@ export class HistoryComponent implements OnInit {
     let canAdd: boolean = true;
     _.forEach(history.reviews, (review: Review) => {
       if (review.sender.id === this.user.id) {
-        canAdd = true;
+        canAdd = false;
       }
     });
 
@@ -57,16 +65,59 @@ export class HistoryComponent implements OnInit {
         history.user = this.user;
       }
 
+      _.forEach(history.reviews, review => {
+        if (!review.sender) {
+          review.sender = this.user;
+        } else if (!review.user) {
+          review.user = this.user;
+        }
+      });
     });
 
     return _.sortBy(historyItems, history => {return history.date.getMilliseconds});
   }
 
-  addReview(history: HistoryItem): void {
+  getHistoryClass(history: HistoryItem): string {
+    let style: string = 'list-group-item list-group-item-';
+    if (this.canAddReview(history)) {
+      style += 'primary';
+    } else {
+      style += 'success';
+    }
 
+    return style;
   }
 
-  showInfo(history: HistoryItem): void {
-    
+  onHistorySelect(history: HistoryItem): void {
+    this.selectedHistory = history;
+  }
+
+  addReview(history: HistoryItem): void {
+    this.onHistorySelect(history);
+  }
+
+  onRatingChange($event: any): void {
+    this.reviewRating = $event.rating;
+  }
+
+  submitReview(): void {
+    console.log(this.selectedHistory);
+    let reviewRequest: AddReviewRequest = {
+      comment: this.reviewComment,
+      historyId: this.selectedHistory.id,
+      rating: this.reviewRating,
+      senderId: this.user.id,
+      userId: this.selectedHistory.partner && this.selectedHistory.partner.id === this.user.id ? this.selectedHistory.user.id : this.selectedHistory.partner.id
+    }
+
+    this.reviewService.addReview(reviewRequest).subscribe(response => {
+      if (response.isError) {
+        this.toastr.error(response.message)
+        return;
+      }
+
+      this.toastr.success('Отзыв отправлен!');
+      this.getUser(true);
+    });
   }
 }

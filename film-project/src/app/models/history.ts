@@ -8,5 +8,5 @@ export class HistoryItem {
     user?: User;
     partner?: User;
     date: Date;
-    reviews: Review;
+    reviews: Review[];
 }

@@ -1,7 +1,10 @@
-html {
-    position: relative;
-    min-height: 100%;
-    overflow-y: scroll;
+@import "assets/css/star-rating.css";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 body {
@@ -15,16 +18,12 @@ a {
     text-decoration: none;
 }
 
-/* a:hover {
-    background-color: transparent;
-    text-decoration: none;
-} */
-
 td {
     vertical-align: middle !important;
 }
 
-td i {
+td i,
+span i {
     vertical-align: middle;
 }
 
