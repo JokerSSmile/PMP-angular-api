@@ -44,6 +44,16 @@ class InviteRepository extends \Doctrine\ORM\EntityRepository
         $stmt->execute(['inviteId' => $inviteId, 'status' => $status]);
     }
 
+    public function getUserInvites($userId)
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT * FROM invite WHERE user_id = :userId OR invited_user_id = :userId';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['userId' => $userId]);
+
+        return $stmt->fetchAll();
+    }
+
     // public function get1()
     // {
     //     $connection = $this->getEntityManager()->getConnection();

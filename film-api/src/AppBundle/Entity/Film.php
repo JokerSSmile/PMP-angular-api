@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FilmRepository")
  */
 class Film
 {

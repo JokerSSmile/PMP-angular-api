@@ -78,8 +78,7 @@ class UserController extends FOSRestController
         } else {
             $this->userService->fillUser($user, $request->request, $userManager);
             $view = $this->view(array(
-                'isError' => false,
-                'message' => ''
+                'isError' => false
             ), 200);
         }
 
@@ -108,6 +107,33 @@ class UserController extends FOSRestController
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         $view = $this->view($user, 200);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/api/save-settings")
+     */
+    public function saveSettingsAction(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($user == "anon.") {
+            $view = $this->view(array('isError' => true,'message' => 'Для операции необходимо войти в систему!'), 200);
+        } else {
+            try {
+                $user->setFirstName($request->request->get('firstName'));
+                $user->setSurname($request->request->get('surname'));
+                $user->setAge($request->request->get('age'));
+                $user->setGender($request->request->get('gender'));
+                $user->setPhone($request->request->get('phone'));
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $view = $this->view(array("isError" => false), 200);
+            } catch (Exception $ex) {
+                $view = $this->view(array("isError" => true, "message" => "Неизвестная ошибка!"), 200);
+            }
+        }
 
         return $this->handleView($view);
     }

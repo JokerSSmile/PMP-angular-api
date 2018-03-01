@@ -36,6 +36,17 @@ class FilmController extends FOSRestController
     }
 
     /**
+     * @Rest\Get("/api/get-film-users/{id}")
+     */
+    public function getFilmUsersAction($id)
+    {
+        $data = $this->getDoctrine()->getRepository(Film::class)->getFilmUsers($id);
+        $view = $this->view($data, 200);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @Rest\Get("/api/subscribe")
      */
     public function subscribeAction(Request $request)
@@ -45,7 +56,7 @@ class FilmController extends FOSRestController
 
         try {
             $this->getDoctrine()->getRepository(User::class)->addUserFilm($userId, $filmId);
-            $view = $this->view(array("isError" => false, "message" => ""), 200);
+            $view = $this->view(array("isError" => false), 200);
         } catch (UniqueConstraintViolationException $ex) {
             $view = $this->view(array("isError" => true, "message" => "Пользователь уже подписан на этот фильм!"), 500);
         } catch (Exception $ex) {
@@ -65,7 +76,7 @@ class FilmController extends FOSRestController
 
         try {
             $this->getDoctrine()->getRepository(User::class)->removeUserFilm($userId, $filmId);
-            $view = $this->view(array("isError" => false, "message" => ""), 200);
+            $view = $this->view(array("isError" => false), 200);
         } catch (Exception $ex) {
             $view = $this->view(array("isError" => true, "message" => "Неизвестная ошибка!"), 500);
         }
