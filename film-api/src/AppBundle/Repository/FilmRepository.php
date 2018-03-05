@@ -10,11 +10,13 @@ class FilmRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getFilmUsers($filmId)
     {
-        $connection = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT * FROM user_film WHERE film_id = :filmId';
-        $stmt = $connection->prepare($sql);
-        $stmt->execute(['filmId' => $filmId]);
-
-        return $stmt->fetchAll();
+        return $this->createQueryBuilder()
+            ->select('u')
+            ->from('film', 'f')
+            ->leftJoin('f.users u ON u.film_id = f.id')
+            ->where('u.film_id = :filmId')
+            ->setParameter('filmId', $filmId)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -8,6 +8,7 @@ use AppBundle\Repository\FilmRepository;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
@@ -19,7 +20,11 @@ class FilmController extends FOSRestController
     public function getFilmsAction()
     {
         $data = $this->getDoctrine()->getRepository(Film::class)->findAll();
+
         $view = $this->view($data, 200);
+        $context = new Context();
+        $context->setGroups(array('default'));
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -30,7 +35,11 @@ class FilmController extends FOSRestController
     public function getFilmAction($id)
     {
         $data = $this->getDoctrine()->getRepository(Film::class)->find($id);
+
         $view = $this->view($data, 200);
+        $context = new Context();
+        $context->setGroups(array('extra'));
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -40,8 +49,12 @@ class FilmController extends FOSRestController
      */
     public function getFilmUsersAction($id)
     {
-        $data = $this->getDoctrine()->getRepository(Film::class)->getFilmUsers($id);
+        $data = $this->getDoctrine()->getRepository(Film::class)->find($id)->getUsers();
+
         $view = $this->view($data, 200);
+        $context = new Context();
+        $context->setGroups(array('default'));
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

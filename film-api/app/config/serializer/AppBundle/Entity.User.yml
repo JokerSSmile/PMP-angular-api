@@ -1,0 +1,21 @@
+AppBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        firstName:
+            expose: true
+            groups: ['default', 'extra']
+        surname:
+            expose: true
+            groups: ['default', 'extra']
+        age:
+            expose: true
+            groups: ['extra']
+        gender:
+            expose: true
+            groups: ['extra']
+        phone:
+            expose: true
+            groups: ['extra']
+        userImageUrl:
+            expose: true
+            groups: ['default', 'extra']

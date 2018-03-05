@@ -1,0 +1,42 @@
+AppBundle\Entity\Film:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: ['default', 'extra']
+        title:
+            expose: true
+            groups: ['default', 'extra']
+        status:
+            expose: true
+            groups: ['default', 'extra']
+        description:
+            expose: true
+            groups: ['default', 'extra']
+        rating:
+            expose: true
+            groups: ['extra']
+        releaseDate:
+            expose: true
+            groups: ['extra']
+        runningTime:
+            expose: true
+            groups: ['extra']
+        imgUrl:
+            expose: true
+            groups: ['default', 'extra']
+        wideImgUrl:
+            expose: true
+            groups: ['extra']
+        kinopoiskId:
+            expose: true
+            groups: ['extra']
+        genres:
+            expose: true
+            groups: ['extra']
+        director:
+            expose: true
+            groups: ['default', 'extra']
+        actors:
+            expose: true
+            groups: ['extra']

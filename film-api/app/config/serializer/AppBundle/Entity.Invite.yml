@@ -1,0 +1,21 @@
+AppBundle\Entity\Invite:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: ['default']
+        status:
+            expose: true
+            groups: ['default']
+        date:
+            expose: true
+            groups: ['default']
+        user:
+            expose: true
+            groups: ['default']
+        invitedUser:
+            expose: true
+            groups: ['default']
+        film:
+            expose: true
+            groups: ['default']

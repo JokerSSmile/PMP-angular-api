@@ -1,0 +1,21 @@
+AppBundle\Entity\History:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: ['default']
+        film:
+            expose: true
+            groups: ['default']
+        date:
+            expose: true
+            groups: ['default']
+        user:
+            expose: true
+            groups: ['default']
+        partner:
+            expose: true
+            groups: ['default']
+        reviews:
+            expose: true
+            groups: ['default']

@@ -7,6 +7,8 @@ use AppBundle\Service\UserService;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,7 +36,6 @@ class UserController extends FOSRestController
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
-        // Add the following lines
         if ($session->has('_security.target_path')) {
             if (false !== strpos($session->get('_security.target_path'), $this->generateUrl('fos_oauth_server_authorize'))) {
                 $session->set('_fos_oauth_server.ensure_logout', true);
@@ -96,6 +97,9 @@ class UserController extends FOSRestController
         }
 
         $view = $this->view($user, 200);
+        $context = new Context();
+        $context->setGroups(array('extra'));
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -107,6 +111,9 @@ class UserController extends FOSRestController
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         $view = $this->view($user, 200);
+        $context = new Context();
+        $context->setGroups(array('extra'));
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

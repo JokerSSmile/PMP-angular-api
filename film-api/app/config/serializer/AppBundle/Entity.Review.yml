@@ -1,0 +1,21 @@
+AppBundle\Entity\Review:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: ['default']
+        rating:
+            expose: true
+            groups: ['default']
+        comment:
+            expose: true
+            groups: ['default']
+        user:
+            expose: true
+            groups: ['default']
+        sender:
+            expose: true
+            groups: ['default']
+        history:
+            expose: true
+            groups: ['default']

@@ -8,7 +8,9 @@ use AppBundle\Entity\Film;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class InviteController extends FOSRestController
@@ -72,6 +74,22 @@ class InviteController extends FOSRestController
         }
 
         $view = $this->view(array("isError" => false), 200);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/api/get-invites/{id}")
+     */
+    public function getInvitesAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $data = array_merge($user->getInvites()->toArray(), $user->getInvitedMe()->toArray());
+
+        $view = $this->view($data, 200);
+        $context = new Context();
+        $context->setGroups(array('default'));
+        $view->setContext($context);
+
         return $this->handleView($view);
     }
 

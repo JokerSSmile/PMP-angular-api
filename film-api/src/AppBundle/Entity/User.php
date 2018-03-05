@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * User
@@ -64,11 +65,15 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(targetEntity="Invite", mappedBy="user")
+     * @JMS\Type("Invite")
+     * @JMS\Groups({"default"})
      */
     private $invites;
 
     /**
      * @ORM\OneToMany(targetEntity="Invite", mappedBy="invitedUser")
+     * @JMS\Type("Invite")
+     * @JMS\Groups({"default"})
      */
     private $invitedMe;
 
@@ -79,11 +84,15 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(targetEntity="History", mappedBy="user")
+     * @JMS\Type("History")
+     * @JMS\Groups({"default"})
      */
     protected $selfHistory;
 
     /**
      * @ORM\OneToMany(targetEntity="History", mappedBy="partner")
+     * @JMS\Type("History")
+     * @JMS\Groups({"default"})
      */
     protected $partnerHistory;
 
@@ -150,5 +159,25 @@ class User extends BaseUser
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    public function getInvites()
+    {
+        return $this->invites;
+    }
+
+    public function getInvitedMe()
+    {
+        return $this->invitedMe;
+    }
+
+    public function getSelfHistory()
+    {
+        return $this->selfHistory;
+    }
+
+    public function getPartnerHistory()
+    {
+        return $this->partnerHistory;
     }
 }

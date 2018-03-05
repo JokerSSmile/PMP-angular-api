@@ -1,9 +1,8 @@
 <?php
 namespace AppBundle\Entity;
 
-
-
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -42,6 +41,8 @@ class History
 
     /**
      * @ORM\OneToMany(targetEntity="Review", mappedBy="history")
+     * @JMS\Type("Review")
+     * @JMS\Groups({"default"})
      */
     private $reviews;
 

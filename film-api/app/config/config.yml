@@ -71,6 +71,8 @@ swiftmailer:
 nelmio_api_doc: ~
 
 fos_rest:
+    serializer:
+        serialize_null: true
     format_listener:
         rules:
             prefer_extension: false
@@ -114,3 +116,22 @@ nelmio_cors:
             allow_headers: ['*']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
+
+jms_serializer:
+    property_naming:
+        separator:  _
+        lower_case: true
+
+    metadata:
+        cache: file
+        debug: "%kernel.debug%"
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+        directories:
+            FOSUserBundle:
+                namespace_prefix: FOS\UserBundle
+                path: %kernel.root_dir%/config/serializer/FosUserBundle
+            AppBundle:
+                namespace_prefix: AppBundle
+                path: %kernel.root_dir%/config/serializer/AppBundle
+        auto_detection: true
