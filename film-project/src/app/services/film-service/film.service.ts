@@ -32,7 +32,7 @@ export class FilmService {
 
   // TODO: check
   getFilmUsers(filmId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.getFilmUsersUrl}/filmId`);
+    return this.http.get<User[]>(`${this.getFilmUsersUrl}/${filmId}`);
   }
 
   subscribe(filmId: number, userId: number): Observable<BaseResponse> {

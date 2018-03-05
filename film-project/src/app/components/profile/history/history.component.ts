@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Review, AddReviewRequest } from '../../../models/review';
 import { ReviewService } from '../../../services/review-service/review.service';
 import { ToastrService } from 'ngx-toastr';
+import { HistoryService } from '../../../services/history-service/history.service';
 
 @Component({
   selector: 'app-history',
@@ -24,6 +25,7 @@ export class HistoryComponent implements OnInit {
   constructor(
     private userService: UserService,
     private reviewService: ReviewService,
+    private historyService: HistoryService,
     private router: Router,
     private toastr: ToastrService
   ) { }
@@ -36,7 +38,29 @@ export class HistoryComponent implements OnInit {
     this.reviewRating = 4;
     this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
-      this.historyItems = this.getUserHistory();
+      this.getHistory();
+    });
+  }
+
+  getHistory(): void {
+    this.historyService.getUserHistory(this.user.id).subscribe(history => {
+      _.forEach(history, historyItem => {
+        if (!historyItem.partner) {
+          historyItem.partner = this.user;
+        } else if (!historyItem.user) {
+          historyItem.user = this.user;
+        }
+
+        _.forEach(historyItem.reviews, review => {
+          if (!review.sender) {
+            review.sender = this.user;
+          } else if (!review.user) {
+            review.user = this.user;
+          }
+        });
+      });
+
+      this.historyItems = _.sortBy(history, historyItem => {return historyItem.date.getMilliseconds});
     });
   }
 
@@ -53,28 +77,6 @@ export class HistoryComponent implements OnInit {
     });
 
     return canAdd;
-  }
-
-  getUserHistory(): HistoryItem[] {
-    let historyItems = _.concat(this.user.self_history, this.user.partner_history);
-
-    _.forEach(historyItems, history => {
-      if (!history.partner) {
-        history.partner = this.user;
-      } else if (!history.user) {
-        history.user = this.user;
-      }
-
-      _.forEach(history.reviews, review => {
-        if (!review.sender) {
-          review.sender = this.user;
-        } else if (!review.user) {
-          review.user = this.user;
-        }
-      });
-    });
-
-    return _.sortBy(historyItems, history => {return history.date.getMilliseconds});
   }
 
   getHistoryClass(history: HistoryItem): string {
@@ -101,7 +103,6 @@ export class HistoryComponent implements OnInit {
   }
 
   submitReview(): void {
-    console.log(this.selectedHistory);
     let reviewRequest: AddReviewRequest = {
       comment: this.reviewComment,
       historyId: this.selectedHistory.id,

@@ -11,7 +11,7 @@ export class InviteService {
   private inviteUrl = 'http://films/app_dev.php/api/invite';
   private removeInviteUrl = 'http://films/app_dev.php/api/remove-invite';
   private updateInviteStatusUrl = 'http://films/app_dev.php/api/update-invite-status';
-  private getInviteStatusUrl = 'http://films/app_dev.php/api/get-invites';
+  private getInvitesUrl = 'http://films/app_dev.php/api/get-invites';
 
   constructor(
     private http: HttpClient
@@ -29,8 +29,7 @@ export class InviteService {
     return this.http.post<BaseResponse>(this.updateInviteStatusUrl, request);
   }
 
-  //TODO: check
   getUserInvites(userId: number): Observable<Invite[]> {
-    return this.http.get<Invite[]>(`${this.getInviteStatusUrl}/${userId}`);
+    return this.http.get<Invite[]>(`${this.getInvitesUrl}/${userId}`);
   }
 }

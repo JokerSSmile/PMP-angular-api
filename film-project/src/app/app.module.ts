@@ -38,6 +38,7 @@ import { ReviewComponent } from './components/profile/review/review.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { MaterialModule } from './material.module';
+import { HistoryService } from './services/history-service/history.service';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -77,6 +78,7 @@ registerLocaleData(localeRu, 'ru');
     AuthService,
     InviteService,
     ReviewService,
+    HistoryService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

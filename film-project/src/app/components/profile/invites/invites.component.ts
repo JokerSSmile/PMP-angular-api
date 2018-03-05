@@ -32,7 +32,13 @@ export class InvitesComponent implements OnInit {
   getUser(forceUpdate: boolean) {
     this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
-      this.invites = this.getUserInvites();
+      this.getInvites();
+    });
+  }
+
+  getInvites(): void {
+    this.inviteService.getUserInvites(this.user.id).subscribe(result => {
+      this.invites = result;
     });
   }
 
@@ -99,17 +105,17 @@ export class InvitesComponent implements OnInit {
     this.router.navigate(['/profile/' + profileId]);
   }
 
-  getUserInvites(): Invite[] {
-    let invites = _.concat(this.user.invites, this.user.invited_me);
+  // getUserInvites(): Invite[] {
+  //   let invites = _.concat(this.user.invites, this.user.invited_me);
 
-    _.forEach(invites, invite => {
-      if (!invite.invited_user) {
-        invite.invited_user = this.user;
-      } else if (!invite.user) {
-        invite.user = this.user;
-      }
-    });
+  //   _.forEach(invites, invite => {
+  //     if (!invite.invited_user) {
+  //       invite.invited_user = this.user;
+  //     } else if (!invite.user) {
+  //       invite.user = this.user;
+  //     }
+  //   });
 
-    return _.sortBy(invites, invite => {return invite.date.getMilliseconds});
-  }
+  //   return _.sortBy(invites, invite => {return invite.date.getMilliseconds});
+  // }
 }

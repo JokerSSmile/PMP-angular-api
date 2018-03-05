@@ -1,5 +1,5 @@
 <div>
-  <div *ngIf="invites.length" class="list-group">
+  <div *ngIf="invites?.length" class="list-group">
     <div *ngFor="let invite of invites" [ngClass]="getInviteClass(invite.status)">
       <div class="d-flex justify-content-between">
         <p class="mb-1" *ngIf="invite.user.id === user.id">Вы пригласили пользователя
@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!invites.length">
+  <div *ngIf="!invites?.length">
     <div class="mt-2">
       <p class="d-flex justify-content-center">Пока здесь пусто</p>
     </div>

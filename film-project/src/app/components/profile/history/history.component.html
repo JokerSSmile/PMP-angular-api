@@ -83,7 +83,7 @@
   </div>
 
 <div>
-  <div *ngIf="historyItems.length" class="list-group">
+  <div *ngIf="historyItems?.length" class="list-group">
     <div *ngFor="let history of historyItems" [ngClass]="getHistoryClass(history)">
       <div class="d-flex justify-content-between">
         <p class="mb-1" *ngIf="history.user.id === user.id">Пользователь
@@ -107,7 +107,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!historyItems.length">
+  <div *ngIf="!historyItems?.length">
     <div class="mt-2">
       <p class="d-flex justify-content-center">Пока здесь пусто</p>
     </div>

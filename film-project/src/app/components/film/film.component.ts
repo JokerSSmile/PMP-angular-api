@@ -24,6 +24,7 @@ export class FilmComponent implements OnInit {
   user: User;
   isUserSubscribed: boolean;
   ratings: Ratings;
+  subscribers: User[];
 
   constructor(
     private filmService: FilmService,
@@ -38,23 +39,26 @@ export class FilmComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.filmId = +params['id'];
       this.ratings = new Ratings();
-      this.getFilm(this.filmId);
+      this.init();
     });
   }
 
-  getFilm(filmId): void {
-    this.filmService.getFilm(filmId).subscribe(result => {
+  init(): void {
+    this.filmService.getFilm(this.filmId).subscribe(result => {
       this.film = result;
-      this.getUser(false);
+      this.actors = this.film.actors.split(', ');
       this.getRatings();
     });
+    this.userService.getUser().subscribe(user => {
+      this.user = user;
+    });
+    this.getFilmUsers();
   }
 
-  getUser(forceUpdate: boolean): void {
-    this.userService.getUser(forceUpdate).subscribe(user => {
-      this.user = user;
-      this.actors = this.film.actors.split(', ');
-      this.isUserSubscribed = _.some(this.film.users, { id: this.user.id });
+  getFilmUsers(): void {
+    this.filmService.getFilmUsers(this.filmId).subscribe(result => {
+      this.subscribers = result;
+      this.isUserSubscribed = _.some(this.subscribers, { id: this.user.id });
     });
   }
 
@@ -65,7 +69,7 @@ export class FilmComponent implements OnInit {
         return;
       }
       this.isUserSubscribed = true;
-      this.getFilm(this.filmId);
+      this.getFilmUsers();
       this.toastr.success('Вы подписались на фильм!');
     });
   }
@@ -77,7 +81,7 @@ export class FilmComponent implements OnInit {
         return;
       }
       this.isUserSubscribed = false;
-      this.getFilm(this.filmId);
+      this.getFilmUsers();
       this.toastr.success('Вы отписались от фильма!');
     });
   }
@@ -98,7 +102,7 @@ export class FilmComponent implements OnInit {
           return;
         }
         this.toastr.success('Вы пригласили пользователя!');
-        this.getUser(true);
+        this.getFilmUsers();
       });
   }
 
@@ -114,7 +118,7 @@ export class FilmComponent implements OnInit {
           return;
         }
         this.toastr.success('Вы отменили приглашение!');
-        this.getUser(true);
+        this.getFilmUsers();
       });
   }
 
