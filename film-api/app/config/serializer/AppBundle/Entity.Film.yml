@@ -40,3 +40,8 @@ AppBundle\Entity\Film:
         actors:
             expose: true
             groups: ['extra']
+    virtual_properties:
+        getUsersCount:
+            expose: true
+            type: integer
+            groups: ['default']

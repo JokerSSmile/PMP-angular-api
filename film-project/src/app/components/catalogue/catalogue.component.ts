@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Film } from '../../models/film';
+import { FilmDefault } from '../../models/film';
 import { FilmService } from '../../services/film-service/film.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { FilmService } from '../../services/film-service/film.service';
 })
 export class CatalogueComponent implements OnInit {
 
-  films: Film[];
+  films: FilmDefault[];
 
   constructor(
     private filmService: FilmService,
@@ -28,7 +28,7 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  onFilmSelect(film: Film): void {
+  onFilmSelect(film: FilmDefault): void {
     this.router.navigate(['/film/' + film.id]);
   }
 

@@ -78,16 +78,16 @@
                   <button (click)="goToUserProfile(subscriber.id)" type="button" class="btn btn-link">{{ subscriber.first_name }} {{ subscriber.surname }}</button>
                 </td>
                 <td class="col-sm-6">
-                  <button *ngIf="subscriber.id != user.id &amp;&amp; !isUserAlreadyInvited(subscriber.id)" (click)="invite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Позвать!</button>
-                  <button *ngIf="isUserAlreadyInvited(subscriber.id)" (click)="removeInvite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Отозвать!</button>
-                  <button *ngIf="subscriber.id == user.id" (click)="unsubscribe()" type="button" class="btn btn-primary btn-block button-fixed-width">Больше не хочу!</button>
+                  <button *ngIf="subscriber.id != user.id &amp;&amp; !isUserAlreadyInvited(subscriber.id)" (click)="invite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Пригласить</button>
+                  <button *ngIf="isUserAlreadyInvited(subscriber.id)" (click)="removeInvite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Отменить</button>
+                  <button *ngIf="subscriber.id == user.id" (click)="unsubscribe()" type="button" class="btn btn-primary btn-block button-fixed-width">Отписаться</button>
                 </td>
               </tr>
             </tbody>
           </table>
           <div *ngIf="user" class="col">
-            <button *ngIf="!isUserSubscribed" (click)="subscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Хочу тоже!</button>
-            <button *ngIf="isUserSubscribed" (click)="unsubscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Больше не хочу!</button>
+            <button *ngIf="!isUserSubscribed" (click)="subscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Подписаться</button>
+            <button *ngIf="isUserSubscribed" (click)="unsubscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Отписаться</button>
           </div>
         </div>
       </div>

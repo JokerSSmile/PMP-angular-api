@@ -6,7 +6,7 @@ import { AuthService } from '../auth-service/auth.service';
 // import 'rxjs/add/observable/of';
 // import 'rxjs/add/operator/map'
 
-import { User, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
+import { UserDefault, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
 import { UserRegisterResponse, BaseResponse } from '../../models/common';
 import { SettingsRequest } from '../../models/settings';
 
@@ -18,20 +18,20 @@ export class UserService {
   private registerUrl = 'http://films/api/register';
   private saveSettingsUrl = 'http://films/app_dev.php/api/save-settings';
 
-  private user: User;
+  private user: UserDefault;
 
   constructor(
     private http: HttpClient,
     private authService: AuthService
   ) { }
 
-  getUser(forceUpdate?: boolean): Observable<User> {
+  getUser(forceUpdate?: boolean): Observable<UserDefault> {
     if (this.user && !forceUpdate) {
       return Observable.of(this.user);
     }
 
-    let userRQ: Observable<User> = this.http.get<User>(this.getUserUrl);
-    userRQ.subscribe((user: User) => {
+    let userRQ: Observable<UserDefault> = this.http.get<UserDefault>(this.getUserUrl);
+    userRQ.subscribe((user: UserDefault) => {
       this.user = user
     });
 

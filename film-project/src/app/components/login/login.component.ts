@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { User } from '../../models/user';
+import { UserDefault } from '../../models/user';
 
 import { UserService } from '../../services/user-service/user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getUser(true).subscribe((user: User) => {
+    this.userService.getUser(true).subscribe((user: UserDefault) => {
       if (user) {
         this.router.navigate(['/catalogue']);
       }
@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.username, this.password)
       .then((isSuccess: boolean) => {
         if (isSuccess) {
-          this.toastr.success('Успешно!');
+          this.toastr.success('Успешно');
           window.location.href = '/catalogue';
         } else {
-          this.toastr.error('Неверные логин или пароль!');
+          this.toastr.error('Неверные логин или пароль');
         }
       });
   }

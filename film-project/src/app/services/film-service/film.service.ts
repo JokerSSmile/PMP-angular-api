@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { parseString } from 'xml2js';
 import * as $ from 'jquery';
 
-import { Film, Ratings } from '../../models/film';
+import { FilmDefault, FilmExtended, Ratings } from '../../models/film';
 import { BaseResponse } from '../../models/common';
-import { User } from '../../models/user';
+import { UserDefault } from '../../models/user';
 
 @Injectable()
 export class FilmService {
@@ -23,16 +23,16 @@ export class FilmService {
   ) { }
 
   getFilms() {
-    return this.http.get<Film[]>(this.getFilmsUrl);
+    return this.http.get<FilmDefault[]>(this.getFilmsUrl);
   }
 
-  getFilm(filmId: number): Observable<Film> {
-    return this.http.get<Film>(`${this.getFilmUrl}/${filmId}`);
+  getFilm(filmId: number): Observable<FilmExtended> {
+    return this.http.get<FilmExtended>(`${this.getFilmUrl}/${filmId}`);
   }
 
   // TODO: check
-  getFilmUsers(filmId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.getFilmUsersUrl}/${filmId}`);
+  getFilmUsers(filmId: number): Observable<UserDefault[]> {
+    return this.http.get<UserDefault[]>(`${this.getFilmUsersUrl}/${filmId}`);
   }
 
   subscribe(filmId: number, userId: number): Observable<BaseResponse> {

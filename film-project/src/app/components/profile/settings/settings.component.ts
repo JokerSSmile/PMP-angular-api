@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../models/user';
+import { UserExtended } from '../../../models/user';
 import { UserService } from '../../../services/user-service/user.service';
 import { SettingsRequest } from '../../../models/settings';
 import { ToastrService } from 'ngx-toastr';
 import { BaseResponse } from '../../../models/common';
+import { ProfileService } from '../../../services/profile-service/profile.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,10 +13,11 @@ import { BaseResponse } from '../../../models/common';
 })
 export class SettingsComponent implements OnInit {
 
-  user: User;
+  user: UserExtended;
 
   constructor(
     private userService: UserService,
+    private profileService: ProfileService,
     private toastr: ToastrService
   ) { }
 
@@ -24,8 +26,10 @@ export class SettingsComponent implements OnInit {
   }
 
   getUser(forceUpdate?: boolean): void {
-    this.userService.getUser(forceUpdate).subscribe((user: User) => {
-      this.user = user;
+    this.userService.getUser(forceUpdate).subscribe(user => {
+      this.profileService.getUserProfile(user.id).subscribe(user => {
+        this.user = user;
+      })
     });
   }
 
@@ -44,7 +48,7 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      this.toastr.success('Настройки обновлены!');
+      this.toastr.success('Настройки обновлены');
       this.getUser(true);
     });
   }

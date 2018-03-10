@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }    from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './/app-routing.module';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { registerLocaleData, CommonModule  } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localeRu from '@angular/common/locales/ru';
+import { XHRBackend, RequestOptions } from '@angular/http';
 
 import { TooltipModule } from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
@@ -31,14 +33,17 @@ import { ReviewService } from './services/review-service/review.service';
 import { TokenInterceptor } from './interceptors/tokenInterceptor'
 import { HttpClient } from 'selenium-webdriver/http';
 import { InvitesComponent } from './components/profile/invites/invites.component';
-import { WantComponent } from './components/profile/want/want.component';
 import { HistoryComponent } from './components/profile/history/history.component';
 import { SettingsComponent } from './components/profile/settings/settings.component';
 import { ReviewComponent } from './components/profile/review/review.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { PreloaderComponent } from './components/preloader/preloader.component';
 
 import { MaterialModule } from './material.module';
 import { HistoryService } from './services/history-service/history.service';
+import { PreloaderService } from './services/preloader-service/preloader.service';
+import { HttpService } from './services/http-service/http.service';
+import { httpServiceFactory } from './interceptors/httpServiceFactory';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -48,6 +53,7 @@ registerLocaleData(localeRu, 'ru');
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    HttpModule,
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
@@ -64,12 +70,12 @@ registerLocaleData(localeRu, 'ru');
     LoginComponent,
     RegisterComponent,
     InvitesComponent,
-    WantComponent,
     HistoryComponent,
     SettingsComponent,
     ReviewComponent,
     FooterComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    PreloaderComponent
   ],
   providers: [
     FilmService,
@@ -79,10 +85,11 @@ registerLocaleData(localeRu, 'ru');
     InviteService,
     ReviewService,
     HistoryService,
+    PreloaderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true
+      multi: true,
     } ],
   bootstrap: [ AppComponent ]
 })

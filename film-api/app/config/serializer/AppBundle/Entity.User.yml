@@ -15,7 +15,7 @@ AppBundle\Entity\User:
             groups: ['extra']
         phone:
             expose: true
-            groups: ['extra']
+            groups: ['default', 'extra']
         userImageUrl:
             expose: true
             groups: ['default', 'extra']

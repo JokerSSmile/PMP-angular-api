@@ -1,10 +1,10 @@
-import { User } from "./user";
+import { UserDefault } from "./user";
 import { HistoryItem } from "./history";
 
 export class Review {
     id: number;
-    user: User;
-    sender: User;
+    user: UserDefault;
+    sender: UserDefault;
     rating: number;
     comment: string;
     history: HistoryItem;

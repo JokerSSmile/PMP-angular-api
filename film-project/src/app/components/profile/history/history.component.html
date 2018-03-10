@@ -88,9 +88,9 @@
       <div class="d-flex justify-content-between">
         <p class="mb-1" *ngIf="history.user.id === user.id">Пользователь
           <button (click)="goToUserProfile(history.partner.id)" type="button" class="btn btn-link">{{ history.partner.first_name }} {{ history.partner.surname }}</button>
-          принял ваше приглашение на фильм {{history.film.title}}
+          сходил с вами на фильм {{history.film.title}}
         </p>
-        <p class="mb-1" *ngIf="history.user.id !== user.id">Вы приняли приглашение пользователя
+        <p class="mb-1" *ngIf="history.user.id !== user.id">Вы сходили с пользователем
           <button (click)="goToUserProfile(history.user.id)" type="button" class=" btn btn-link">{{ history.user.first_name }} {{ history.user.surname }}</button>
           на фильм {{history.film.title}}
         </p>

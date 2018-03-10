@@ -1,5 +1,5 @@
-import { User } from './user';
-import { Film } from './film';
+import { UserDefault } from './user';
+import { FilmDefault } from './film';
 
 export enum InviteStatus {
     Waiting = '0',
@@ -9,9 +9,9 @@ export enum InviteStatus {
 
 export class Invite {
     id: number;
-    invited_user?: User;
-    user?: User;
-    film: Film;
+    invited_user?: UserDefault;
+    user?: UserDefault;
+    film: FilmDefault;
     status: InviteStatus;
     date: Date;
 }

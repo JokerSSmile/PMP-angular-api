@@ -1,4 +1,4 @@
-<div class="container profile" *ngIf="user">
+<div class="container profile" *ngIf="user &amp;&amp; currentUser">
   <div class="col-sm-12 card card-shadow profile-body">
     <div class="row align-items-center profile-header">
       <div class="col-md-2">
@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="" *ngIf="user?.id == currentUser?.id">
+    <div class="" *ngIf="user.id == currentUser.id">
       <ul class="nav nav-tabs col-sm-12" id="profileTabs1" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="invites-tab" data-toggle="tab" href="#invites" role="tab" aria-controls="invites" aria-selected="true">Уведомления</a>
@@ -23,10 +23,10 @@
       </ul>
       <div class="tab-content w-100" id="profileTabsContent1">
         <div class="tab-pane fade show active" id="invites" role="tabpanel" aria-labelledby="invites-tab">
-          <app-invites></app-invites>
+          <app-invites [invites]="invites" (onInviteUpdated)="getHistory(); getInvites();"></app-invites>
         </div>
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-          <app-history></app-history>
+          <app-history [historyItems]="historyItems" (onHistoryUpdated)="getHistory()"></app-history>
         </div>
         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
           <app-settings></app-settings>
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div class="" *ngIf="user?.id != currentUser?.id">
+    <div class="" *ngIf="user.id != currentUser.id">
       <ul class="nav nav-tabs col-sm-12" id="profileTabs2" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="true">Отзывы</a>

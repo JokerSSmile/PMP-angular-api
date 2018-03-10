@@ -4,8 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
-import { Film, Ratings } from '../../models/film';
-import { User } from '../../models/user';
+import { FilmExtended, Ratings } from '../../models/film';
+import { UserDefault } from '../../models/user';
 import { Invite, InviteRequest } from '../../models/invite';
 import { BaseResponse } from '../../models/common';
 import { FilmService } from '../../services/film-service/film.service';
@@ -19,12 +19,13 @@ import { InviteService } from '../../services/invite-service/invite.service';
 })
 export class FilmComponent implements OnInit {
   filmId: number;
-  film: Film;
+  film: FilmExtended;
   actors: string[];
-  user: User;
+  user: UserDefault;
   isUserSubscribed: boolean;
   ratings: Ratings;
-  subscribers: User[];
+  subscribers: UserDefault[];
+  userInvites: Invite[];
 
   constructor(
     private filmService: FilmService,
@@ -44,15 +45,17 @@ export class FilmComponent implements OnInit {
   }
 
   init(): void {
-    this.filmService.getFilm(this.filmId).subscribe(result => {
-      this.film = result;
-      this.actors = this.film.actors.split(', ');
-      this.getRatings();
-    });
     this.userService.getUser().subscribe(user => {
       this.user = user;
+      this.filmService.getFilm(this.filmId).subscribe(result => {
+        this.film = result;
+        this.actors = this.film.actors.split(', ');
+        this.getRatings();
+      });
+
+      this.getFilmUsers();
+      this.getUserIvites();
     });
-    this.getFilmUsers();
   }
 
   getFilmUsers(): void {
@@ -62,27 +65,33 @@ export class FilmComponent implements OnInit {
     });
   }
 
+  getUserIvites(): void {
+    this.inviteService.getUserInvites(this.user.id).subscribe(invites => {
+      this.userInvites = invites;
+    });
+  }
+
   subscribe(): void {
     this.filmService.subscribe(this.film.id, this.user.id).subscribe(result => {
       if (result.isError) {
-        this.toastr.error('Не удалось подписаться!');
+        this.toastr.error('Не удалось подписаться');
         return;
       }
       this.isUserSubscribed = true;
       this.getFilmUsers();
-      this.toastr.success('Вы подписались на фильм!');
+      this.toastr.success('Вы подписались на фильм');
     });
   }
 
   unsubscribe(): void {
     this.filmService.unsubscribe(this.film.id, this.user.id).subscribe(result => {
       if (result.isError) {
-        this.toastr.error('Не удалось отписаться!');
+        this.toastr.error('Не удалось отписаться');
         return;
       }
       this.isUserSubscribed = false;
       this.getFilmUsers();
-      this.toastr.success('Вы отписались от фильма!');
+      this.toastr.success('Вы отписались от фильма');
     });
   }
 
@@ -101,8 +110,9 @@ export class FilmComponent implements OnInit {
           this.toastr.error(response.message);
           return;
         }
-        this.toastr.success('Вы пригласили пользователя!');
+        this.toastr.success('Вы пригласили пользователя');
         this.getFilmUsers();
+        this.getUserIvites();
       });
   }
 
@@ -117,14 +127,15 @@ export class FilmComponent implements OnInit {
           this.toastr.error(response.message);
           return;
         }
-        this.toastr.success('Вы отменили приглашение!');
+        this.toastr.success('Вы отменили приглашение');
         this.getFilmUsers();
+        this.getUserIvites();
       });
   }
 
   isUserAlreadyInvited(userId: number): boolean {
     let isExists: boolean = false;
-    _.forEach(this.user.invites, (invite: Invite) => {
+    _.forEach(this.userInvites, (invite: Invite) => {
       if (invite.invited_user.id == userId) {
         isExists = true;
       }

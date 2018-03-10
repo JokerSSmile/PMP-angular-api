@@ -1,4 +1,3 @@
-import { User } from './user'
 import { HistoryItem } from './history';
 
 export enum FilmStatus {
@@ -6,7 +5,17 @@ export enum FilmStatus {
     History = 1
 }
 
-export class Film {
+export class FilmDefault {
+    id: number;
+    title: string;
+    status: FilmStatus;
+    description: string;
+    img_url: string;
+    director: string;
+    users_count: number;
+}
+
+export class FilmExtended {
     id: number;
     title: string;
     status: FilmStatus;
@@ -20,8 +29,6 @@ export class Film {
     kinopoisk_id: number;
     director: string;
     actors: string;
-    users: User[];
-    histories: HistoryItem[];
 }
 
 export class Ratings {

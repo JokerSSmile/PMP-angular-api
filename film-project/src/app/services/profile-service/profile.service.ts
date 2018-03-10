@@ -4,20 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../auth-service/auth.service';
 import 'rxjs/add/observable/of';
 
-import { User } from '../../models/user';
+import { UserExtended } from '../../models/user';
 
 @Injectable()
 export class ProfileService {
 
   private getProfileUrl = 'http://films/app_dev.php/api/get-user-profile';
 
-  private user: User;
-
   constructor(
     private http: HttpClient
   ) { }
 
-  getUserProfile(profileId: number): Observable<User> {
-    return this.http.get<User>(`${this.getProfileUrl}/${profileId}`);
+  getUserProfile(profileId: number): Observable<UserExtended> {
+    return this.http.get<UserExtended>(`${this.getProfileUrl}/${profileId}`);
   }
 }

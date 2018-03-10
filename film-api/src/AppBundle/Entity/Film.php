@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Entity;
 use Doctrine\ORM\EntityRepository;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
@@ -259,22 +260,13 @@ class Film
     {
         $this->invites = $invites;
     }
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invites = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add invite
-     *
-     * @param \AppBundle\Entity\Invite $invite
-     *
-     * @return Film
-     */
     public function addInvite(\AppBundle\Entity\Invite $invite)
     {
         $this->invites[] = $invite;
@@ -282,13 +274,16 @@ class Film
         return $this;
     }
 
-    /**
-     * Remove invite
-     *
-     * @param \AppBundle\Entity\Invite $invite
-     */
     public function removeInvite(\AppBundle\Entity\Invite $invite)
     {
         $this->invites->removeElement($invite);
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     */
+    public function getUsersCount()
+    {
+        return count($this->users);
     }
 }

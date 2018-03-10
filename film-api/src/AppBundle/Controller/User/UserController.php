@@ -98,7 +98,7 @@ class UserController extends FOSRestController
 
         $view = $this->view($user, 200);
         $context = new Context();
-        $context->setGroups(array('extra'));
+        $context->setGroups(array('default'));
         $view->setContext($context);
 
         return $this->handleView($view);
@@ -138,7 +138,7 @@ class UserController extends FOSRestController
 
                 $view = $this->view(array("isError" => false), 200);
             } catch (Exception $ex) {
-                $view = $this->view(array("isError" => true, "message" => "Неизвестная ошибка!"), 200);
+                $view = $this->view(array("isError" => true, "message" => "Ошибка при обновлении пользователя. Данные не сохранены"), 200);
             }
         }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HistoryItem } from '../../../models/history';
 import { UserService } from '../../../services/user-service/user.service';
-import { User } from '../../../models/user';
+import { UserDefault } from '../../../models/user';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { Review, AddReviewRequest } from '../../../models/review';
@@ -16,8 +16,9 @@ import { HistoryService } from '../../../services/history-service/history.servic
 })
 export class HistoryComponent implements OnInit {
 
-  historyItems: HistoryItem[];
-  user: User;
+  @Input() historyItems: HistoryItem[];
+  @Output() onHistoryUpdated = new EventEmitter<void>();
+  user: UserDefault;
   selectedHistory: HistoryItem;
   reviewRating: number;
   reviewComment: string;
@@ -35,32 +36,8 @@ export class HistoryComponent implements OnInit {
   }
 
   getUser(forceUpdate: boolean) {
-    this.reviewRating = 4;
     this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
-      this.getHistory();
-    });
-  }
-
-  getHistory(): void {
-    this.historyService.getUserHistory(this.user.id).subscribe(history => {
-      _.forEach(history, historyItem => {
-        if (!historyItem.partner) {
-          historyItem.partner = this.user;
-        } else if (!historyItem.user) {
-          historyItem.user = this.user;
-        }
-
-        _.forEach(historyItem.reviews, review => {
-          if (!review.sender) {
-            review.sender = this.user;
-          } else if (!review.user) {
-            review.user = this.user;
-          }
-        });
-      });
-
-      this.historyItems = _.sortBy(history, historyItem => {return historyItem.date.getMilliseconds});
     });
   }
 
@@ -117,8 +94,8 @@ export class HistoryComponent implements OnInit {
         return;
       }
 
-      this.toastr.success('Отзыв отправлен!');
-      this.getUser(true);
+      this.toastr.success('Отзыв отправлен');
+      this.onHistoryUpdated.emit();
     });
   }
 }

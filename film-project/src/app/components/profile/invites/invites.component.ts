@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
 import { Invite, InviteStatusUpdateRequest, InviteRequest, InviteStatus } from '../../../models/invite';
-import { User } from '../../../models/user';
+import { UserDefault } from '../../../models/user';
 import { UserService } from '../../../services/user-service/user.service';
 import { InviteService } from '../../../services/invite-service/invite.service';
 
@@ -15,8 +15,9 @@ import { InviteService } from '../../../services/invite-service/invite.service';
 })
 export class InvitesComponent implements OnInit {
 
-  user: User;
-  invites: Invite[];
+  @Input() invites: Invite[];
+  @Output() onInviteUpdated = new EventEmitter<void>();
+  user: UserDefault;
 
   constructor(
     private userService: UserService,
@@ -32,13 +33,6 @@ export class InvitesComponent implements OnInit {
   getUser(forceUpdate: boolean) {
     this.userService.getUser(forceUpdate).subscribe(user => {
       this.user = user;
-      this.getInvites();
-    });
-  }
-
-  getInvites(): void {
-    this.inviteService.getUserInvites(this.user.id).subscribe(result => {
-      this.invites = result;
     });
   }
 
@@ -53,8 +47,7 @@ export class InvitesComponent implements OnInit {
           this.toastr.error(response.message);
           return;
         }
-        this.toastr.success('Вы отменили приглашение!');
-        this.getUser(true);
+        this.toastr.success('Вы отменили приглашение');
       });
   }
 
@@ -68,8 +61,9 @@ export class InvitesComponent implements OnInit {
         this.toastr.error(response.message);
         return;
       }
-      this.toastr.success('Статус изменен!');
-      this.getUser(true);
+      debugger;
+      this.toastr.success('Вы приняли приглашение');
+      this.onInviteUpdated.emit();
     });
   }
 
@@ -104,18 +98,4 @@ export class InvitesComponent implements OnInit {
   goToUserProfile(profileId: number): void {
     this.router.navigate(['/profile/' + profileId]);
   }
-
-  // getUserInvites(): Invite[] {
-  //   let invites = _.concat(this.user.invites, this.user.invited_me);
-
-  //   _.forEach(invites, invite => {
-  //     if (!invite.invited_user) {
-  //       invite.invited_user = this.user;
-  //     } else if (!invite.user) {
-  //       invite.user = this.user;
-  //     }
-  //   });
-
-  //   return _.sortBy(invites, invite => {return invite.date.getMilliseconds});
-  // }
 }

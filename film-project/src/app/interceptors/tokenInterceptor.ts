@@ -14,6 +14,7 @@ import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 
 import { OAuthResponse } from '../models/authentication';
+import { PreloaderService } from '../services/preloader-service/preloader.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -24,6 +25,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
     private injector: Injector,
+    private preloaderService: PreloaderService,
     private router: Router
   ) {}
 
@@ -43,6 +45,7 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request);
     }
 
+    this.preloaderService.show();
     return next.handle(this.addToken(request, this.injector.get(AuthService).getToken()))
       .catch(error => {
         if (error instanceof HttpErrorResponse) {
@@ -57,6 +60,9 @@ export class TokenInterceptor implements HttpInterceptor {
         } else {
           return Observable.throw(error);
         }
+      })
+      .finally(() => {
+        this.preloaderService.hide();
       });
   }
 
@@ -71,13 +77,12 @@ export class TokenInterceptor implements HttpInterceptor {
       this.tokenSubject.next(null);
 
       return this.injector.get(AuthService).refreshToken()
-        .switchMap((newToken: OAuthResponse) => {
+        .switchMap((newToken: OAuthResponse): any => {
           if (newToken && newToken.access_token) {
             this.tokenSubject.next(newToken.access_token);
             this.injector.get(AuthService).setTokens(newToken.access_token, newToken.refresh_token);
 
-            next.handle(this.addToken(request, newToken.access_token));
-            return;
+            return next.handle(this.addToken(request, newToken.access_token));
           }
 
           return this.router.navigate(['/login']);

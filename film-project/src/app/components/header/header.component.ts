@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../../models/user';
+import { UserDefault } from '../../models/user';
 import { UserService } from '../../services/user-service/user.service';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 
 export class HeaderComponent implements OnInit {
-  user: User;
+  user: UserDefault;
   userProfileLink: string;
 
   constructor(

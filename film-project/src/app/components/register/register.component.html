@@ -16,7 +16,7 @@
       <label for="password-repeat">Повторите пароль</label>
       <input type="password" class="form-control" id="password-repeat" placeholder="Введите пароль снова" [(ngModel)]="registerPreRequest.plainPassword.second" name="password1" required>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Продолжить</button>
+    <button [disabled]="preRegisterForm.invalid" type="submit" class="btn btn-primary btn-block">Продолжить</button>
   </form>
   <form *ngIf="step == 1" (ngSubmit)="register()" #registerForm="ngForm" class="register-form" novalidate>
     <div class="form-group">
@@ -52,6 +52,6 @@
       <label for="phone">Телефон</label>
       <input type="text" class="form-control" id="phone" placeholder="Введите телефон" [(ngModel)]="registerRequest.phone" name="phone">
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+    <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
   </form>
 </div>

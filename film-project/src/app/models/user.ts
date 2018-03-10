@@ -1,4 +1,4 @@
-import { Film } from '../models/film';
+import { FilmDefault } from '../models/film';
 import { Invite } from '../models/invite';
 import { Review } from '../models/review';
 import { HistoryItem } from './history';
@@ -9,7 +9,17 @@ export enum Gender {
     Uncknown = '2'
 }
 
-export class User {
+export class UserDefault {
+    id: number;
+    username: string;
+    email: string;
+    first_name: string;
+    surname: string;
+    phone: string;
+    user_image_url: string;
+}
+
+export class UserExtended {
     id: number;
     username: string;
     email: string;
@@ -19,12 +29,6 @@ export class User {
     gender: Gender;
     phone: string;
     user_image_url: string;
-    films: Film[];
-    invites: Invite[];
-    invited_me: Invite[];
-    reviews: Review[];
-    self_history: HistoryItem[];
-    partner_history: HistoryItem[];
 }
 
 export class Password {

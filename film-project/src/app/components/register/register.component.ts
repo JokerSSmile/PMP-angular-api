@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-import { User, Gender, Password, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
+import { UserDefault, Gender, Password, UserRegusterRequest, UserRegisterPreRequest } from '../../models/user';
 import { UserRegisterResponse } from '../../models/common';
 
 import { UserService } from '../../services/user-service/user.service';
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getUser(true).subscribe((user: User) => {
+    this.userService.getUser(true).subscribe((user: UserDefault) => {
       if (user) {
         this.router.navigate(['/catalogue']);
       } else {
@@ -42,9 +42,14 @@ export class RegisterComponent implements OnInit {
   }
 
   preRegister() {
+    if (this.registerPreRequest.plainPassword.first != this.registerPreRequest.plainPassword.second) {
+      this.toastr.error('Пароли должны совпадать');
+      return;
+    }
+
     this.userService.preRegister(this.registerPreRequest).subscribe((response: UserRegisterResponse) => {
       if (!response.isError) {
-        this.toastr.success('Пользователь создан!');
+        this.toastr.success('Пользователь создан');
         this.registerRequest.id = response.userId;
         this.step++;
       } else {
@@ -55,7 +60,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.userService.register(this.registerRequest).subscribe((response) => {
-      this.toastr.success('Регистрация прошла успешно!');
+      this.toastr.success('Регистрация прошла успешно');
       this.router.navigate(['/login']);
     });
   }
