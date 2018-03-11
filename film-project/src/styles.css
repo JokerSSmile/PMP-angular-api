@@ -1,4 +1,5 @@
 @import "assets/css/star-rating.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html,
 body {
@@ -20,6 +21,11 @@ a {
 
 td {
     vertical-align: middle !important;
+}
+
+button:hover,
+a:hover {
+    cursor: pointer !important;
 }
 
 td i,

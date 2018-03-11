@@ -6,7 +6,7 @@ use AppBundle\Entity\Film;
 use AppBundle\Entity\Invite;
 use Doctrine\ORM\EntityManager;
 
-class FilmRepository extends \Doctrine\ORM\EntityRepository
+class FilmRepository extends BaseRepository
 {
     public function getFilmUsers($filmId)
     {

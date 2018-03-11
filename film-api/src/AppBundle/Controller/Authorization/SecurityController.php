@@ -4,11 +4,11 @@ namespace AppBundle\Controller\Authorization;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Controller\BaseController;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
-class SecurityController extends FOSRestController
+class SecurityController extends BaseController
 {
     /**
      * @Rest\Get("/api/login", name="login")
@@ -20,8 +20,7 @@ class SecurityController extends FOSRestController
             'last_username' => $helper->getLastUsername(),
             'error' => $helper->getLastAuthenticationError()
         );
-        $view = $this->view($data, 200);
-        return $this->handleView($view);
+        $view = $this->getView($data, 200);
     }
 
     /**

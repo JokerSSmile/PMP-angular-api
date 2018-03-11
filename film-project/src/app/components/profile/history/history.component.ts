@@ -84,8 +84,8 @@ export class HistoryComponent implements OnInit {
       comment: this.reviewComment,
       historyId: this.selectedHistory.id,
       rating: this.reviewRating,
-      senderId: this.user.id,
-      userId: this.selectedHistory.partner && this.selectedHistory.partner.id === this.user.id ? this.selectedHistory.user.id : this.selectedHistory.partner.id
+      senderId: this.selectedHistory.partner && this.selectedHistory.partner.id === this.user.id ? this.selectedHistory.user.id : this.selectedHistory.partner.id,
+      userId: this.user.id
     }
 
     this.reviewService.addReview(reviewRequest).subscribe(response => {

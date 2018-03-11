@@ -6,13 +6,12 @@ use AppBundle\Entity\Film;
 use AppBundle\Entity\User;
 use AppBundle\Repository\FilmRepository;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
-class FilmController extends FOSRestController
+class FilmController extends BaseController
 {
     /**
      * @Rest\Get("/api/get-films")
@@ -21,12 +20,7 @@ class FilmController extends FOSRestController
     {
         $data = $this->getDoctrine()->getRepository(Film::class)->findAll();
 
-        $view = $this->view($data, 200);
-        $context = new Context();
-        $context->setGroups(array('default'));
-        $view->setContext($context);
-
-        return $this->handleView($view);
+        return $this->getView($data, 200, 'default');
     }
 
     /**
@@ -34,14 +28,15 @@ class FilmController extends FOSRestController
      */
     public function getFilmAction($id)
     {
-        $data = $this->getDoctrine()->getRepository(Film::class)->find($id);
+        $film = $this->getDoctrine()->getRepository(Film::class)->find($id);
 
-        $view = $this->view($data, 200);
-        $context = new Context();
-        $context->setGroups(array('extra'));
-        $view->setContext($context);
+        if ($film != null) {
+            $responseCode = 200;
+        } else {
+            $responseCode = 404;
+        }
 
-        return $this->handleView($view);
+        return $this->getView($film, $responseCode, 'extra');
     }
 
     /**
@@ -49,51 +44,50 @@ class FilmController extends FOSRestController
      */
     public function getFilmUsersAction($id)
     {
-        $data = $this->getDoctrine()->getRepository(Film::class)->find($id)->getUsers();
+        $film = $this->getDoctrine()->getRepository(Film::class)->find($id);
 
-        $view = $this->view($data, 200);
-        $context = new Context();
-        $context->setGroups(array('default'));
-        $view->setContext($context);
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * @Rest\Get("/api/subscribe")
-     */
-    public function subscribeAction(Request $request)
-    {
-        $filmId = $request->query->get('filmId');
-        $userId = $request->query->get('userId');
-
-        try {
-            $this->getDoctrine()->getRepository(User::class)->addUserFilm($userId, $filmId);
-            $view = $this->view(array("isError" => false), 200);
-        } catch (UniqueConstraintViolationException $ex) {
-            $view = $this->view(array("isError" => true, "message" => "Пользователь уже подписан на этот фильм!"), 500);
-        } catch (Exception $ex) {
-            $view = $this->view(array("isError" => true, "message" => "Неизвестная ошибка!"), 500);
+        if ($film != null) {
+            $responseCode = 200;
+            $data = $film->getUsers();
+        } else {
+            $responseCode = 404;
         }
 
-        return $this->handleView($view);
+        return $this->getView($data, $responseCode, 'default');
     }
 
     /**
-     * @Rest\Get("/api/unsubscribe")
+     * @Rest\Get("/api/subscribe/{filmId}/{userId}")
      */
-    public function unsubscribeAction(Request $request)
+    public function subscribeAction($filmId, $userId)
     {
-        $filmId = $request->query->get('filmId');
-        $userId = $request->query->get('userId');
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $film = $this->getDoctrine()->getRepository(Film::class)->find($filmId);
 
+        if ($film == null || $user == null) {
+            $view = $this->getView(null, 404);
+        } else {
+            try {
+                $this->getDoctrine()->getRepository(User::class)->addUserFilm($userId, $filmId);
+                return $this->getView(array("isError" => false), 200);
+            } catch (UniqueConstraintViolationException $ex) {
+                return $this->getView(array("isError" => true, "message" => "Пользователь уже подписан на этот фильм"), 200);
+            } catch (Exception $ex) {
+                return $this->getView(array("isError" => true, "message" => "Неизвестная ошибка"), 200);
+            }
+        }
+    }
+
+    /**
+     * @Rest\Get("/api/unsubscribe/{filmId}/{userId}")
+     */
+    public function unsubscribeAction($filmId, $userId)
+    {
         try {
             $this->getDoctrine()->getRepository(User::class)->removeUserFilm($userId, $filmId);
-            $view = $this->view(array("isError" => false), 200);
+            return $this->getView(array("isError" => false), 200);
         } catch (Exception $ex) {
-            $view = $this->view(array("isError" => true, "message" => "Неизвестная ошибка!"), 500);
+            return $this->getView(array("isError" => true, "message" => "Неизвестная ошибка"), 200);
         }
-
-        return $this->handleView($view);
     }
 }

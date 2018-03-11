@@ -1,0 +1,119 @@
+<div class="container film-info card card-shadow" *ngIf="film">
+  <div class="row film-head">
+    <img src="assets/images/wide-posters/{{ film.wide_img_url }}" class="film-poster" />
+    <span class="film-title">{{ film.title }}</span>
+  </div>
+  <div class="row">
+    <div class="kinopoisk" data-movie="89515"></div>
+    <div class="film-body col-md-9">
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="w-25 title">
+                <i class="material-icons">date_range</i>
+                Дата премьеры
+              </td>
+              <td>
+                {{ film.release_date | date:'longDate':'':'ru' }}
+              </td>
+            </tr>
+            <tr>
+              <td class="w-25 title">
+                <i class="material-icons">perm_identity</i>
+                Режиссер
+              </td>
+              <td>
+                {{ film.director }}
+              </td>
+            </tr>
+            <tr>
+              <td class="w-25 title">
+                <i class="material-icons">access_time</i>
+                Время
+              </td>
+              <td>
+                {{ film.running_time | date:'h:mm':'UTC' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="film-description">{{ film.description }}</p>
+        <div class="col-md-4 float-left">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td colspan="2" class="title">
+                    <i class="material-icons">trending_up</i>
+                    Рейтинги
+                  </td>
+                </tr>
+                <tr>
+                  <td class="w-50">
+                    <img class="logo" src="assets/images/kinopoisk.png">
+                  </td>
+                  <td class="w-50">
+                    {{ratings.kp_rating ? ratings.kp_rating : 0}}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="w-50">
+                    <img class="logo" src="assets/images/imdb.png">
+                  </td>
+                  <td class="w-50">
+                    {{ratings.imdb_rating ? ratings.imdb_rating : 0}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-md-8 float-right" *ngIf="!user">
+          <hr class="mt-0">
+          <p class="text-center text-muted">Чтобы увидеть подписавшихся пользователей <a [routerLink]="'/login'">войдите на сайт</a> или <a [routerLink]="'/register'">зарегистрируйтесь</a></p>
+        </div>
+        <div class="col-md-8 float-right" *ngIf="user">
+          <table class="table table-hover">
+            <tbody>
+              <tr *ngFor="let subscriber of subscribers">
+                <th scope="row col">
+                  <img class="user-image" src="assets/images/{{ subscriber.user_image_url }}" />
+                </th>
+                <td class="col">
+                  <button (click)="goToUserProfile(subscriber.id)" type="button" class="btn btn-link">{{ subscriber.first_name }} {{ subscriber.surname }}</button>
+                </td>
+                <td class="col-sm-6">
+                  <button *ngIf="subscriber.id != user.id &amp;&amp; !isUserAlreadyInvited(subscriber.id)" (click)="invite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Пригласить</button>
+                  <button *ngIf="isUserAlreadyInvited(subscriber.id)" (click)="removeInvite(subscriber.id)" type="button" class="btn btn-primary btn-block button-fixed-width">Отменить</button>
+                  <button *ngIf="subscriber.id == user.id" (click)="unsubscribe()" type="button" class="btn btn-primary btn-block button-fixed-width">Отписаться</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="col">
+            <button *ngIf="!isUserSubscribed" (click)="subscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Подписаться</button>
+            <button *ngIf="isUserSubscribed" (click)="unsubscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Отписаться</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="film-actors col-md-3">
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <td class="title">
+            <i class="material-icons">group</i>
+            Актеры
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="film-actors" *ngFor="let actor of actors">
+                {{ actor }} <br/>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

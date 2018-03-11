@@ -128,7 +128,7 @@ class Film
 
     public function setDescription($description)
     {
-        $this->name = $description;
+        $this->description = $description;
     }
 
     public function getRating()

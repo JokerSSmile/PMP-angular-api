@@ -1,6 +1,6 @@
 <div class="container film-info card card-shadow" *ngIf="film">
   <div class="row film-head">
-    <img src="assets/images/wide-posters/{{ film.wide_img_url }}" class="film-poster" />
+    <img src="http://films/assets/images/wide-posters/{{ film.wide_img_url }}" class="film-poster" />
     <span class="film-title">{{ film.title }}</span>
   </div>
   <div class="row">
@@ -67,12 +67,16 @@
               </tbody>
             </table>
         </div>
-        <div class="col-md-8 float-right">
+        <div class="col-md-8 float-right" *ngIf="!user">
+          <hr class="mt-0">
+          <p class="text-center text-muted">Чтобы увидеть подписавшихся пользователей <a [routerLink]="'/login'">войдите на сайт</a> или <a [routerLink]="'/register'">зарегистрируйтесь</a></p>
+        </div>
+        <div class="col-md-8 float-right" *ngIf="user">
           <table class="table table-hover">
             <tbody>
               <tr *ngFor="let subscriber of subscribers">
                 <th scope="row col">
-                  <img class="user-image" src="assets/images/{{ subscriber.user_image_url }}" />
+                  <img class="user-image" src="http://films/assets/images/{{ subscriber.user_image_url }}" />
                 </th>
                 <td class="col">
                   <button (click)="goToUserProfile(subscriber.id)" type="button" class="btn btn-link">{{ subscriber.first_name }} {{ subscriber.surname }}</button>
@@ -85,7 +89,7 @@
               </tr>
             </tbody>
           </table>
-          <div *ngIf="user" class="col">
+          <div class="col">
             <button *ngIf="!isUserSubscribed" (click)="subscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Подписаться</button>
             <button *ngIf="isUserSubscribed" (click)="unsubscribe()" type="button" class="btn btn-primary float-right button-fixed-width">Отписаться</button>
           </div>

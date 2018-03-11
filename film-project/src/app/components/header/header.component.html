@@ -1,6 +1,6 @@
 <div class="header">
     <div class="container">
-        <button [routerLink]="['/']" class="header-title btn btn-outline-primary"> FilMeet </button>
+        <button [routerLink]="['/']" class="header-title btn btn-link"> FilMeet </button>
 
         <div class="header-user" *ngIf="user !== undefined">
             <div class="dropdown" *ngIf="user !== null">
@@ -9,7 +9,9 @@
                     Привет, {{ user.first_name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a *ngIf="user.is_admin" class="dropdown-item bg-primary text-white" (click)="goToAddFilm()">Добавить фильм</a>
                     <a class="dropdown-item" (click)="goToUserProfile()">Профиль</a>
+                    <hr class="mt-0 mb-0">
                     <a class="dropdown-item" (click)="onLogoutClick()">Выйти</a>
                 </div>
             </div>

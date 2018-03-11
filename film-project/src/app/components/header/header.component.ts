@@ -38,6 +38,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([this.userProfileLink]);
   }
 
+  goToAddFilm(): void {
+    this.router.navigate(['/admin']);
+  }
+
   onLogoutClick(): void {
     this.userService.logout();
   }

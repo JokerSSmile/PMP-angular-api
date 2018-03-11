@@ -1,0 +1,9 @@
+.content-body {
+    padding:1em 1em 5em;
+}
+
+.content-fill {
+    position: relative;
+    height: auto !important;
+    min-height: 100%;
+}

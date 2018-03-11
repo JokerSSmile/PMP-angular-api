@@ -1,9 +1,9 @@
-<div>
-  <div *ngIf="reviews?.length" class="list-group">
-    <div *ngFor="let review of reviews" class="list-group-item">
+<div *ngIf="reviews">
+  <div *ngIf="reviews.length" class="list-group">
+    <div *ngFor="let review of reviews" class="list-group-item list-group-item-primary">
       <div class="d-flex justify-content-between">
         <p class="mb-1">Пользователь
-          <button (click)="goToUserProfile(review.sender.id)" type="button" class=" btn btn-link">{{ review.sender.first_name }} {{ review.sender.surname }}</button>
+          <button (click)="goToUserProfile(review.user.id)" type="button" class=" btn btn-link">{{ review.user.first_name }} {{ review.user.surname }}</button>
           после совместного похода на фильм {{review.history.film.title}}
         </p>
         <small>
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!reviews?.length">
+  <div *ngIf="!reviews.length">
     <div class="mt-2">
       <p class="d-flex justify-content-center">Пока здесь пусто</p>
     </div>

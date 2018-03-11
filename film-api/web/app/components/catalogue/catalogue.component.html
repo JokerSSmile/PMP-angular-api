@@ -1,0 +1,22 @@
+<div class="container col-md-6">
+  <div class="row">
+    <div class="col-sm-6" *ngFor="let film of films" (click)="onFilmSelect(film)">
+      <div class="card post-card card-shadow">
+        <img class="card-img-top post-image" src="assets/images/posters/{{ film.img_url }}">
+        <div class="card-body">
+          <div class="row post-body">
+            <div class="col-sm-8 float-left">
+              <h5 class="card-title">{{ film.title }}</h5>
+              <p class="card-text">{{ film.director }}</p>
+            </div>
+            <div class="col-sm-4 float-right post-user-counter">
+              <button type="button" class="btn btn-outline-primary float-right disabled" tooltip="Уже записались на фильм" placement="right">
+                {{ film.users_count }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

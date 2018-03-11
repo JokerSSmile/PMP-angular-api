@@ -1,0 +1,35 @@
+<div>
+  <div *ngIf="invites?.length" class="list-group">
+    <div *ngFor="let invite of invites" [ngClass]="getInviteClass(invite.status)">
+      <div class="d-flex justify-content-between">
+        <p class="mb-1" *ngIf="invite.user.id === user.id">Вы пригласили пользователя
+          <button (click)="goToUserProfile(invite.invited_user.id)" type="button" class="btn btn-link">{{ invite.invited_user.first_name }} {{ invite.invited_user.surname }}</button>
+          на фильм {{invite.film.title}}
+        </p>
+        <p class="mb-1" *ngIf="invite.user.id !== user.id">Пользователь
+          <button (click)="goToUserProfile(invite.user.id)" type="button" class=" btn btn-link">{{ invite.user.first_name }} {{ invite.user.surname }}</button>
+          пригласил Вас на фильм {{invite.film.title}}
+        </p>
+        <small>{{invite.date | timeAgo}}</small>
+      </div>
+      <div *ngIf="invite.status === '0' &amp;&amp; invite.invited_user.id === user.id">
+        <hr>
+        <div class="d-flex justify-content-end">
+          <button (click)="changeInviteStatus(invite.id, 1)" class="btn btn-sm btn-primary">Принять</button>
+          <button (click)="changeInviteStatus(invite.id, 2)" class="btn btn-sm btn-secondary ml-1">Отклонить</button>
+        </div>
+      </div>
+      <div *ngIf="invite.status === '0' &amp;&amp; invite.user.id === user.id">
+        <hr>
+        <div class="d-flex justify-content-end">
+          <button (click)="removeInvite(invite)" class="btn btn-sm btn-secondary ml-1">Отменить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!invites?.length">
+    <div class="mt-2">
+      <p class="d-flex justify-content-center">Пока здесь пусто</p>
+    </div>
+  </div>
+</div>

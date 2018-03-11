@@ -25,25 +25,16 @@ class UserService
         $form->submit($request->request->all());
 
         if ( !$form->isValid()) {
-            return array(
-                'isError' => true,
-                'message' => 'Введите корректные данные!'
-            );
+            return array('isError' => true, 'message' => 'Введите корректные данные!');
         }
         $event = new FormEvent($form, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
         if ($event->getResponse()) {
-            return array(
-                'isError' => true,
-                'message' => 'Ошибка при регистрации пользователя. Повторите снова!'
-            );
+            return array('isError' => true, 'message' => 'Ошибка при регистрации пользователя. Повторите снова!');
         }
         $userManager->updateUser($user);
 
-        return array(
-            'isError' => false,
-            'message' => '',
-            'userId' => $user->getId()
+        return array('isError' => false, 'userId' => $user->getId()
         );
     }
 

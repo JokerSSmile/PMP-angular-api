@@ -99,7 +99,7 @@
       <div *ngIf="canAddReview(history)">
         <hr>
         <div class="d-flex justify-content-end">
-          <button (click)="onHistorySelect(history)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userInfoPopup">
+          <button *ngIf="user.id != history.partner.id" (click)="onHistorySelect(history)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userInfoPopup">
             <i class="material-icons">call</i>
           </button>
           <button (click)="addReview(history)" class="btn btn-sm btn-primary ml-1" data-toggle="modal" data-target="#reviewPopup">Оставить отзыв</button>

@@ -1,0 +1,20 @@
+.post-card {
+    cursor: pointer;
+    background: #ffffff;
+    margin-top: 30px;
+}
+
+.post-image {
+    height: 640px;
+}
+
+.post-body {
+    position: relative;
+}
+
+.post-user-counter {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

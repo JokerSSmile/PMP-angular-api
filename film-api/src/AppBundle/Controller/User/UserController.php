@@ -5,14 +5,14 @@ namespace AppBundle\Controller\User;
 use AppBundle\Entity\User;
 use AppBundle\Service\UserService;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Controller\BaseController;
 
-class UserController extends FOSRestController
+class UserController extends BaseController
 {
     private $userService;
 
@@ -42,8 +42,8 @@ class UserController extends FOSRestController
             }
         }
 
-        $view = $this->view($session, 200);
-        return $this->handleView($view);
+
+        return $view = $this->getView($session, 200);
     }
 
     /**
@@ -57,8 +57,7 @@ class UserController extends FOSRestController
 
         $userData = $this->userService->createUser($request, $formFactory, $userManager, $dispatcher);
 
-        $view = $this->view($userData, 200);
-        return $this->handleView($view);
+        return $view = $this->getView($userData, 200);
     }
 
     /**
@@ -72,18 +71,11 @@ class UserController extends FOSRestController
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
 
         if ($user == null) {
-            $view = $this->view(array(
-                'isError' => true,
-                'message' => 'Пользователь с таким идентификатором не найден!'
-            ), 200);
+            return $view = $this->getView(array('isError' => true,'message' => 'Пользователь с таким идентификатором не найден!'), 200);
         } else {
             $this->userService->fillUser($user, $request->request, $userManager);
-            $view = $this->view(array(
-                'isError' => false
-            ), 200);
+            return $view = $this->getView(array('isError' => false), 200);
         }
-
-        return $this->handleView($view);
     }
 
     /**
@@ -96,12 +88,7 @@ class UserController extends FOSRestController
             $user = null;
         }
 
-        $view = $this->view($user, 200);
-        $context = new Context();
-        $context->setGroups(array('default'));
-        $view->setContext($context);
-
-        return $this->handleView($view);
+        return $this->getView($user, 200, 'default');
     }
 
     /**
@@ -110,12 +97,14 @@ class UserController extends FOSRestController
     public function getUserAction($id)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $view = $this->view($user, 200);
-        $context = new Context();
-        $context->setGroups(array('extra'));
-        $view->setContext($context);
 
-        return $this->handleView($view);
+        if ($user != null) {
+            $responseCode = 200;
+        } else {
+            $responseCode = 404;
+        }
+
+        return $this->getView($user, $responseCode, 'extra');
     }
 
     /**
@@ -125,7 +114,7 @@ class UserController extends FOSRestController
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if ($user == "anon.") {
-            $view = $this->view(array('isError' => true,'message' => 'Для операции необходимо войти в систему!'), 200);
+            return $this->getView(array("isError" => true, "message" => "Для операции необходимо войти в систему!"), 200);
         } else {
             try {
                 $user->setFirstName($request->request->get('firstName'));
@@ -133,15 +122,12 @@ class UserController extends FOSRestController
                 $user->setAge($request->request->get('age'));
                 $user->setGender($request->request->get('gender'));
                 $user->setPhone($request->request->get('phone'));
-
                 $this->getDoctrine()->getManager()->flush();
 
-                $view = $this->view(array("isError" => false), 200);
+                return $this->getView(array("isError" => false), 200);
             } catch (Exception $ex) {
-                $view = $this->view(array("isError" => true, "message" => "Ошибка при обновлении пользователя. Данные не сохранены"), 200);
+                return $this->getView(array("isError" => true, "message" => "Ошибка при обновлении пользователя. Данные не сохранены"), 200);
             }
         }
-
-        return $this->handleView($view);
     }
 }

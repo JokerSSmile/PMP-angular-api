@@ -1,0 +1,12 @@
+.server-error {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.server-error-body {
+    padding-bottom: 15px;
+}
+
+.server-error-icon {
+    font-size: 200px;
+}

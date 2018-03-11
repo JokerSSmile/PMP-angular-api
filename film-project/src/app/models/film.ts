@@ -35,3 +35,18 @@ export class Ratings {
     kp_rating: number;
     imdb_rating: number;
 }
+
+export class CreateFilmRequest {
+    title: string;
+    description: string;
+    releaseDate: Date;
+    runningTime: Date;
+    img: string;
+    imgName: string;
+    wideImg: string;
+    wideImgName: string
+    genres: string;
+    director: string;
+    actors: string;
+    kinopoiskId: number;
+}

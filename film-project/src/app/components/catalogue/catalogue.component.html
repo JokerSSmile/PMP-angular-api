@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-sm-6" *ngFor="let film of films" (click)="onFilmSelect(film)">
       <div class="card post-card card-shadow">
-        <img class="card-img-top post-image" src="assets/images/posters/{{ film.img_url }}">
+        <img class="card-img-top post-image" src="http://films/assets/images/posters/{{ film.img_url }}">
         <div class="card-body">
           <div class="row post-body">
             <div class="col-sm-8 float-left">
-              <h5 class="card-title">{{ film.title }}</h5>
+              <h5 class="card-title"><b>{{ film.title }}</b></h5>
               <p class="card-text">{{ film.director }}</p>
             </div>
             <div class="col-sm-4 float-right post-user-counter">

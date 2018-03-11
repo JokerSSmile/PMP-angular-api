@@ -180,4 +180,20 @@ class User extends BaseUser
     {
         return $this->partnerHistory;
     }
+
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     */
+    public function getIsAdmin()
+    {
+        if ($this->roles == null) {
+            return false;
+        }
+        return in_array("ROLE_ADMIN", $this->roles);
+    }
 }

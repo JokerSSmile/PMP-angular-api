@@ -19,3 +19,8 @@ AppBundle\Entity\User:
         userImageUrl:
             expose: true
             groups: ['default', 'extra']
+    virtual_properties:
+        getIsAdmin:
+            expose: true
+            type: boolean
+            groups: ['default']

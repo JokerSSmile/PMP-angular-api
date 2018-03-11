@@ -1,0 +1,46 @@
+<div class="container col-md-4 register-block rounded">
+    <form (ngSubmit)="submit()" #addFilmForm="ngForm" class="register-form">
+      <div class="form-group">
+        <label for="title">Название</label>
+        <input type="text" class="form-control" id="title" placeholder="Введите название" [(ngModel)]="createFilmRequest.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Описание</label>
+        <input type="text" class="form-control" id="description" placeholder="Введите описание" [(ngModel)]="createFilmRequest.description" name="description" required>
+      </div>
+      <div class="form-group">
+        <label for="releaseDate">Дата выхода</label>
+        <input type="date" class="form-control" id="releaseDate" placeholder="Введите дату выхода" [(ngModel)]="createFilmRequest.releaseDate" name="releaseDate" required>
+      </div>
+      <div class="form-group">
+        <label for="runningTime">Длительность</label>
+        <input type="time" class="form-control" id="runningTime" placeholder="Введите длительность" [(ngModel)]="createFilmRequest.runningTime" name="runningTime" required>
+      </div>
+      <div class="form-group">
+        <label for="img">Выберите изображение</label>
+        <input type="file"  accept="image/*" class="form-control-file" id="img" (change)="handleFileInput($event.target.files, true)" name="img" required>
+      </div>
+      <div class="form-group">
+        <label for="wideImg">Выберите широкоформатное изображение</label>
+        <input type="file"  accept="image/*" class="form-control-file" id="wideImg" (change)="handleFileInput($event.target.files, false)" name="wideImg" required>
+      </div>
+      <div class="form-group">
+        <label for="genres">Жанры</label>
+        <input type="text" class="form-control" id="genres" placeholder="Введите жанры" [(ngModel)]="createFilmRequest.genres" name="genres" required>
+      </div>
+      <div class="form-group">
+        <label for="director">Режиссер</label>
+        <input type="text" class="form-control" id="director" placeholder="Введите режиссер" [(ngModel)]="createFilmRequest.director" name="director" required>
+      </div>
+      <div class="form-group">
+        <label for="actors">Актеры</label>
+        <input type="text" class="form-control" id="actors" placeholder="Введите имена актеров" [(ngModel)]="createFilmRequest.actors" name="actors" required>
+      </div>
+      <div class="form-group">
+        <label for="kinopoiskId">Номер на сайте Кинопоиск</label>
+        <input type="number" class="form-control" id="kinopoiskId" placeholder="Введите Кинопоиск id" [(ngModel)]="createFilmRequest.kinopoiskId" name="kinopoiskId" required>
+      </div>
+
+      <button [disabled]="addFilmForm.invalid" type="submit" class="btn btn-primary btn-block">Продолжить</button>
+    </form>
+  </div>
